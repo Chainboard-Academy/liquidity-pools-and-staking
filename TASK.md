@@ -1,7 +1,7 @@
 # Liquidity Pools and Staking
 
 1. Write and test WETH contract - it mints ERC20 tokens in 1:1 ratio for native ETH currency (received by function with `payable` modifier) and sends native ETH currency by burning user ERC20 tokens. Please note that there should be no admin for this contract and `totalSupply()` MUST always be equal amount of ETH held by WETH smart contract.
-2. Create a Uniswap Liquidity Pool with token pair WETH-[token from first task]   
+2. Create a Uniswap Liquidity Pool with token pair WETH-[token from first task]
 
     - You should make sure that the ERC-20 token from the 1st task can be minted and burnt by another contract (staking contract) and no one else. Use of AccessControl is recommended.
   
