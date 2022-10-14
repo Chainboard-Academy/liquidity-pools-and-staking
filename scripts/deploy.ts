@@ -2,7 +2,7 @@ import { ethers } from "hardhat";
 
 async function main() {
   const Staking = await ethers.getContractFactory("WETH");
-  const staking = await Staking.deploy();
+  const staking = await Staking.deploy("Liquidity", 'LT');
 
   await staking.deployed();
   console.log("staking deployed to:", staking.address);
