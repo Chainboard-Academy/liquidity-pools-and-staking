@@ -20,7 +20,7 @@ describe('Weth', function () {
       const initial_stake = await liquidity_token.checkStakingBalance(account1.address);
       expect(initial_stake).to.be.equal(0);
       console.log(liquidity_token)
-      let tx = await liquidity_token.call(owner).stake(100);
+      let tx = await liquidity_token.connect(owner).stake(100);
       // await expect(tx).to.emit(liquidity_token, "Stake").withArgs(100);
     });
   });
