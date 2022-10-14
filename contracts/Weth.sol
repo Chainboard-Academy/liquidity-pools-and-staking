@@ -51,7 +51,7 @@ contract WETH {
 
     }
 
-    function checkSatkingBalance(address staking_address) public view returns (uint256) {
+    function checkStakingBalance(address staking_address) public view returns (uint256) {
          uint256 rewards = stakeholders[staking_address].amount;
          return rewards;
     }
