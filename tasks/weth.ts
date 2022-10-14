@@ -3,7 +3,7 @@ import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-ethers";
 import * as dotenv from "dotenv";
 dotenv.config();
-import "./tasks/weth";
+
 
 let deployedContract: any;
 const contract_name = "WETH";
