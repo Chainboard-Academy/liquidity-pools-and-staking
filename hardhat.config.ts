@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 const API_URL = 'https://rpc.sepolia.online';
 import { HardhatUserConfig } from "hardhat/config";
-// import "./tasks/erc20";
+import "./tasks/weth";
 
 const ALCHEMY_PROJECT_ID = process.env.ALCHEMY_PROJECT_ID || '';
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || '';;
