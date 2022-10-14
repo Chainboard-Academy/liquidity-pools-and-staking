@@ -12,7 +12,9 @@ abstract contract WETH is ERC20 {
     }
 
     mapping(address => Stakeholder) public stakeholders;
-
+    constructor(uint256 initialSupply, string memory token_name, string memory symbol) ERC20(token_name, symbol) {
+            _mint(msg.sender, initialSupply);
+        }
     /**
      * transfers LP tokes from the user to the contract. 
      */
