@@ -7,14 +7,16 @@ contract WETH is ERC20 {
 
     event Stake(address indexed stakeholder, uint256 amount);
     event Unstake(address indexed stakeholder, uint256 amount);
+
      struct Stakeholder {
         uint256 amount;
     }
 
     mapping(address => Stakeholder) public stakeholders;
+
     constructor(string memory token_name, string memory symbol) ERC20(token_name, symbol) {
-            _mint(msg.sender, 1000);
-        }
+         _mint(msg.sender, 10000);
+    }
     /**
      * transfers LP tokes from the user to the contract. 
      */
@@ -44,7 +46,7 @@ contract WETH is ERC20 {
         uint256 rewards = stakeholders[msg.sender].amount;
 
         require(rewards >= value, "Unstaked value is higher that staking amount");
-        stakeholders[msg.sender].amount -=value;
+        stakeholders[msg.sender].amount -= value;
         transfer(msg.sender, value);
         emit Unstake(msg.sender, value);
         return true;
