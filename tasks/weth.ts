@@ -23,7 +23,7 @@ task("stake", "transfers LP tokes from the user to the contract.")
         const amount = hre.ethers.utils.parseUnits(taskArgs.amount, await contract.decimals());
         const signer = await hre.ethers.getSigners();
         console.log("stacking amount ", amount.toString());
-        let tx = await contract.connect(signer[1]).stake(amount);
+        let tx = await contract.connect(signer[0]).stake(amount);
         console.log('stacking transaction was successful:', tx.hash);
     });
 
@@ -43,4 +43,14 @@ task("balance", "check balance of given account")
         const signer = await hre.ethers.getSigners();
         let tx = await contract.connect(signer[0]).balanceOf(account);
         console.log('Balance:', tx.toString());
+    });
+
+task("stackingBalance", "check balance of given account")
+    .addParam("account", "Account to check")
+    .setAction(async (taskArgs, hre) => {
+        const account = taskArgs.account;
+        const contract = await hre.ethers.getContractAt('WETH', ERC20_CONTRACT_ADDRESS);
+        const signer = await hre.ethers.getSigners();
+        let tx = await contract.connect(signer[1]).checkStakingBalance(account);
+        console.log('Staked token balance:', tx.toString());
     });
