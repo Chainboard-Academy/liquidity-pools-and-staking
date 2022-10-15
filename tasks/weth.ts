@@ -8,7 +8,7 @@ dotenv.config();
 let deployedContract: any;
 const contract_name = "WETH";
 // const ERC20_CONTRACT_ADDRESS: string = process.env.ERC20_CONTRACT_ADDRESS as string;
-const ERC20_CONTRACT_ADDRESS = '0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6'
+const ERC20_CONTRACT_ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
 task("accounts", "Prints the list of accounts").setAction(async (taskArgs, hre) => {
     const accounts = await hre.ethers.getSigners();
     for (const account of accounts) {
