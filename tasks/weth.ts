@@ -8,7 +8,7 @@ dotenv.config();
 let deployedContract: any;
 const contract_name = "WETH";
 // const ERC20_CONTRACT_ADDRESS: string = process.env.ERC20_CONTRACT_ADDRESS as string;
-const ERC20_CONTRACT_ADDRESS = '0x0165878A594ca255338adfa4d48449f69242Eb8F'
+const ERC20_CONTRACT_ADDRESS = '0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6'
 task("accounts", "Prints the list of accounts").setAction(async (taskArgs, hre) => {
     const accounts = await hre.ethers.getSigners();
     for (const account of accounts) {
@@ -22,7 +22,15 @@ task("stake", "transfers LP tokes from the user to the contract.")
         const contract = await hre.ethers.getContractAt('WETH', ERC20_CONTRACT_ADDRESS);
         const amount = hre.ethers.utils.parseUnits(taskArgs.amount, await contract.decimals());
         const signer = await hre.ethers.getSigners();
-        console.log("stacking amount ", amount);
-        let tx = await contract.connect(signer[0]).stake(amount);
-        console.log('stacking transaction was successful: ', tx.hash);
+        console.log("stacking amount ", amount.toString());
+        let tx = await contract.connect(signer[1]).stake(amount);
+        console.log('stacking transaction was successful:', tx.hash);
+    });
+
+task("supply", "check total supply")
+    .setAction(async (taskArgs, hre) => {
+        const contract = await hre.ethers.getContractAt('WETH', ERC20_CONTRACT_ADDRESS);
+        const signer = await hre.ethers.getSigners();
+        let tx = await contract.connect(signer[0]).totalSupply()
+        console.log('Total supply is:', tx.toString());
     });

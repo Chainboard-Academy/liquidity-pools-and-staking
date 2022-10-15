@@ -16,11 +16,13 @@ contract WETH is ERC20 {
 
     constructor(string memory token_name, string memory symbol) ERC20(token_name, symbol) {
          _mint(msg.sender, 10000);
+        // _totalSupply += amount;
+        // _balances[account] += amount;
     }
     /**
      * transfers LP tokes from the user to the contract. 
      */
-    function stake(uint256 value) external returns (bool) {
+    function stake(uint256 value) public returns (bool) {
         require(WETHToken.balanceOf(msg.sender) >= value, "Staking value is higher that your account balance");
         stakeholders[msg.sender].amount += value;
         transferFrom(msg.sender, address(this), value);
@@ -31,7 +33,7 @@ contract WETH is ERC20 {
     /**
      * withdraws reward tokens available to the user from the contract 
      */
-    function claim() external returns (bool) {
+    function claim() public returns (bool) {
         uint256 rewards = stakeholders[msg.sender].amount;
         stakeholders[msg.sender].amount = 0;
         transfer(msg.sender, rewards);
@@ -42,7 +44,7 @@ contract WETH is ERC20 {
     /**
      * withdraws LP tokens available for withdrawal.
      */
-    function unstake(uint256 value) external returns (bool) {
+    function unstake(uint256 value) public returns (bool) {
         uint256 rewards = stakeholders[msg.sender].amount;
 
         require(rewards >= value, "Unstaked value is higher that staking amount");
