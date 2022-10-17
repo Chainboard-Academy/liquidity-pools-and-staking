@@ -15,7 +15,7 @@ contract WETH is ERC20 {
     mapping(address => Stakeholder) public stakeholders;
 
     constructor(string memory token_name, string memory symbol) ERC20(token_name, symbol) {
-         _mint(msg.sender, 10000);
+        //  _mint(msg.sender, 10000);
         // _totalSupply += amount;
         // _balances[account] += amount;
     }
