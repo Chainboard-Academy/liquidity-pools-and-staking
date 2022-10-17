@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
 import "./ERC20.sol";
 
 
-contract StakingRewards {
-    IERC20 public immutable stakingToken;
-    IERC20 public immutable rewardsToken;
+contract StakingRewards is AccessControl {
+    ERC20 private rewardsToken;
+    IERC20 private stakingToken;
 
     address public owner;
     uint public duration;
@@ -24,6 +27,8 @@ contract StakingRewards {
     }
     constructor(address _stakingToken, address _rewardsToken) {
         owner = msg.sender;
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+
         stakingToken = IERC20(_stakingToken);
         rewardsToken = IERC20(_rewardsToken);
     }
@@ -46,8 +51,9 @@ contract StakingRewards {
     }
 
     function stake(uint _amount) external {
-        require(_amount > 0, "amount  = 0");
-        stakingToken.transferFrom()
+        require(_amount > 0, "amount = 0");
+        stakingToken.transferFrom(msg.sender, address(this), _amount);
+        totalSupply += _amount;
     }
     function withdraw(uint _amount) external {}
     function earned(uint _amount) external view returns(uint) {}
