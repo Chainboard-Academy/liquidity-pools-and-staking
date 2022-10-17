@@ -108,12 +108,12 @@ contract ERC20 is AccessControl {
      *
      * - `account` cannot be the zero address.
      */
-    function mint(uint256 amount) public returns (bool){
-        _balances[msg.sender] += amount;
-        _totalSupply += amount;
+    function _mint(address account, uint256 amount) internal virtual {
+        require(account != address(0), "ERC20: mint to the zero address");
 
-    emit Transfer(msg.sender, address(0), amount);
-    return true;
+        _totalSupply += amount;
+        _balances[account] += amount;
+        emit Transfer(address(0), account, amount);
     }
 
     /***
@@ -123,22 +123,29 @@ contract ERC20 is AccessControl {
      * @param _account the account address which tokens will be deleted from
      * @param _amount the amount of money to burn
      */
-    function burn(uint256 amount)
-        public
-        returns (bool)
-    {
-        require(
-            _balances[msg.sender] >= amount,
-            "The balance is less than burning amount"
-        );
-
-        _balances[msg.sender] -= amount;
+   /**
+     * @dev Destroys `amount` tokens from `account`, reducing the
+     * total supply.
+     *
+     * Emits a {Transfer} event with `to` set to the zero address.
+     *
+     * Requirements:
+     *
+     * - `account` cannot be the zero address.
+     * - `account` must have at least `amount` tokens.
+     */
+    function _burn(address account, uint256 amount)  public {
+        require(account != address(0), "ERC20: burn from the zero address");
+        uint256 accountBalance = _balances[account];
+        require(accountBalance >= amount, "ERC20: burn amount exceeds balance");
+        unchecked {
+            _balances[account] = accountBalance - amount;
+        }
         _totalSupply -= amount;
-        emit Transfer(msg.sender, address(0), amount);
 
-        return true;
+        emit Transfer(account, address(0), amount);
+
     }
-
 
     /***
      * @dev Moves `amount` tokens from the caller's account to `to`.
