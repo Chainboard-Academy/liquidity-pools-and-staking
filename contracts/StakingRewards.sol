@@ -9,7 +9,6 @@ import "./ERC20.sol";
 contract StakingRewards is AccessControl {
     mapping(address => uint256) public rewards;
 
-
     constructor() {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
