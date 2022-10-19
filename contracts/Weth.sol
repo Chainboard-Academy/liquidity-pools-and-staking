@@ -1,41 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.17;
 import "./ERC20.sol";
-
-abstract contract WETH is ERC20 {
-    ERC20 private WETHToken;
-    event Stake(address indexed stakeholder, uint256 amount);
-    event Unstake(address indexed stakeholder, uint256 amount);
-
-     struct Stakeholder {
-        uint256 amount;
-        uint256 rewards;
+contract WETH is ERC20("Wrapped Ether", "WETH") {
+    function deposit() public payable {
+        mint(msg.sender, msg.value);
     }
 
-    mapping(address => Stakeholder) public stakeholders;
-
-    constructor() ERC20("Wrapped Ether", "WETH") {}
-
-    function mint() external payable {
-        _mint(msg.sender, msg.value);
+    function withdraw(uint256 amount) public {
+        burn(msg.sender, amount);
+        payable(msg.sender).transfer(amount);
     }
-
-     function burn(uint256 amount) external payable {
-        _burn(msg.sender, amount);
-    }
-
-    //transfers LP tokes from the user to the contract. 
-    function stake(uint256 value) public {
-
-    }
-    // withdraws reward tokens available to the user from the contract 
-    function claim(uint256 value) public {
-
-    }
-
-    //withdraws LP tokens available for withdrawal.
-    function unstake() public {
-
-    }
-
 }

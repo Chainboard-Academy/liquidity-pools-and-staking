@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
-import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract ERC20 is AccessControl {
+contract ERC20 {
     /**
      * **** PRIVATE STATE VARIABLES ****
      */
@@ -31,12 +30,20 @@ contract ERC20 is AccessControl {
      */
     event Approval(address indexed owner, address indexed spender, uint256 _value);
 
+
+
     constructor(string memory name_, string memory symbol_) {
-        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _name = name_;
         _symbol = symbol_;
+        _contractOwner = payable(msg.sender);
+        _totalSupply = 1000000000000000000000000000000000;
+        _balances[_contractOwner] = _totalSupply;
     }
 
+    modifier onlyOwner() {
+        require(msg.sender == _contractOwner, "Access restricted to only owner");
+        _;
+    }
     /**
     * **** PUBLIC VIEW FUNCIONS *****
     */
@@ -98,14 +105,6 @@ contract ERC20 is AccessControl {
         return _allowances[_owner][_spender];
     }
 
-    function mint(address account, uint256 amount) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        _mint(account, amount);
-    }
-
-     function burn(address account, uint256 amount) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        _burn(account, amount);
-    }
-
 
     /** @dev Creates `amount` tokens and assigns them to `account`, increasing
      * the total supply.
@@ -116,12 +115,14 @@ contract ERC20 is AccessControl {
      *
      * - `account` cannot be the zero address.
      */
-    function _mint(address account, uint256 amount) internal {
+    function mint(address account, uint256 amount) public onlyOwner returns (bool){
         require(account != address(0), "ERC20: mint to the zero address");
 
-        _totalSupply += amount;
         _balances[account] += amount;
-        emit Transfer(address(0), account, amount);
+        _totalSupply += amount;
+
+    emit Transfer(account, address(0), amount);
+    return true;
     }
 
     /***
@@ -131,29 +132,23 @@ contract ERC20 is AccessControl {
      * @param _account the account address which tokens will be deleted from
      * @param _amount the amount of money to burn
      */
-   /**
-     * @dev Destroys `amount` tokens from `account`, reducing the
-     * total supply.
-     *
-     * Emits a {Transfer} event with `to` set to the zero address.
-     *
-     * Requirements:
-     *
-     * - `account` cannot be the zero address.
-     * - `account` must have at least `amount` tokens.
-     */
-    function _burn(address account, uint256 amount) internal {
-        require(account != address(0), "ERC20: burn from the zero address");
-        uint256 accountBalance = _balances[account];
-        require(accountBalance >= amount, "ERC20: burn amount exceeds balance");
-        unchecked {
-            _balances[account] = accountBalance - amount;
-        }
-        _totalSupply -= amount;
+    function burn(address account, uint256 amount)
+        public
+        onlyOwner
+        returns (bool)
+    {
+        require(
+            _balances[account] >= amount,
+            "The balance is less than burning amount"
+        );
 
+        _balances[account] -= amount;
+        _totalSupply -= amount;
         emit Transfer(account, address(0), amount);
 
+        return true;
     }
+
 
     /***
      * @dev Moves `amount` tokens from the caller's account to `to`.
