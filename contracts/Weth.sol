@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.17;
-import "./ERC20.sol";
-contract WETH is ERC20("Wrapped Ether", "WETH") {
+import "./myERC20.sol";
+contract WETH is myERC20("Wrapped Ether", "WETH") {
 
     function deposit() public payable {
         mint(msg.sender, msg.value);
