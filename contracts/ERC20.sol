@@ -36,7 +36,7 @@ contract ERC20 {
         _name = name_;
         _symbol = symbol_;
         _contractOwner = payable(msg.sender);
-        _totalSupply = 1000000000000000000000000000000000;
+        _totalSupply = 1000;
         _balances[_contractOwner] = _totalSupply;
     }
 

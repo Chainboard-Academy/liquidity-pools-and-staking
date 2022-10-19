@@ -6,7 +6,7 @@ describe('ERC20', function () {
   const contractName = 'Liquidity';
   const contractSymbol = 'LST';
   const decimals = 18;
-  const total_supply = 1000000000000000000000000000000000n;
+  const total_supply = 1000;
   let token: any;
   let owner: SignerWithAddress;
   let account1: SignerWithAddress;
@@ -102,7 +102,6 @@ describe('ERC20', function () {
       });
       it('decreaseAllowance transaction', async () => {
         const initial_allowance = await token.allowance(owner.address, account1.address);
-        console.log(initial_allowance)
         await expect(
           token.connect(owner).decreaseAllowance(account1.address, initial_allowance + 1)
         ).to.be.revertedWith("ERC20: decreased allowance below zero");
