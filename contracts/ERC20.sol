@@ -98,6 +98,14 @@ contract ERC20 is AccessControl {
         return _allowances[_owner][_spender];
     }
 
+    function mint(address account, uint256 amount) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        _mint(account, amount);
+    }
+
+     function burn(address account, uint256 amount) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        _burn(account, amount);
+    }
+
 
     /** @dev Creates `amount` tokens and assigns them to `account`, increasing
      * the total supply.
