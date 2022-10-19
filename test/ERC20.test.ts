@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { ethers } from "hardhat";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
-describe('myERC20', function () {
+describe('ERC20', function () {
   const contractName = 'Liquidity';
   const contractSymbol = 'LST';
   const decimals = 18;
