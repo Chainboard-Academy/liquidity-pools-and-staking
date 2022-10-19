@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 import "./ERC20.sol";
-import "./StakingRewards.sol";
 
 abstract contract WETH is ERC20 {
     ERC20 private WETHToken;
@@ -21,7 +20,7 @@ abstract contract WETH is ERC20 {
         _mint(msg.sender, msg.value);
     }
 
-     function burn(unit256 amount) external payable {
+     function burn(uint256 amount) external payable {
         _burn(msg.sender, amount);
     }
 
