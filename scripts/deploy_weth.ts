@@ -7,9 +7,9 @@ async function main() {
 
   console.log("Account balance:", (await deployer.getBalance()).toString());
   const WETH = await ethers.getContractFactory("WETH");
-  const weth = await WETH.deploy();
-  await weth.deployed();
-  console.log("WETH Token address:", weth.address);
+  const weth_contract = await WETH.deploy();
+  await weth_contract.deployed();
+  console.log("WETH Token address:", weth_contract.address);
 }
 
 

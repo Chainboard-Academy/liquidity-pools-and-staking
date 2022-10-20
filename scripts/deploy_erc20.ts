@@ -2,11 +2,11 @@ import { ethers } from "hardhat";
 
 async function main() {
     console.log("Deploying ERC20 contract");
-    const Staking = await ethers.getContractFactory("ERC20");
-    const staking = await Staking.deploy("Liquidity", 'LST');
+    const ERC20 = await ethers.getContractFactory("ERC20");
+    const contract = await ERC20.deploy("Liquidity", 'LST');
 
-    await staking.deployed();
-    console.log("ERC20 deployed to:", staking.address);
+    await contract.deployed();
+    console.log("ERC20 deployed to:", contract.address);
 }
 
 main()
