@@ -18,7 +18,7 @@ contract StakingRewards is AccessControl {
 
     struct Stakeholder {
         uint256 amount;
-        uint256 rewardsAvailable;
+        uint256 rewards;
         uint256 stakingTime;
     }
 
@@ -26,6 +26,14 @@ contract StakingRewards is AccessControl {
 
     event Stake(address indexed staker, uint256 amount);
     event Unstake(address indexed staker, uint256 amount);
+
+    function getStakeHoldersStake(address stakeHolder) external view returns (uint256) {
+        return stakeholders[stakeHolder].amount;
+    }
+
+    function getStakeHoldersRewards(address stakeHolder) external view returns (uint256) {
+        return stakeholders[stakeHolder].rewards;
+    }
 
     //transfers LP tokes from the user to the contract. 
     function stake(uint256 stakedAmount) external returns (bool) {
