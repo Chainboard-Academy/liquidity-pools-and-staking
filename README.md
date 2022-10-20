@@ -16,7 +16,9 @@ npx hardhat --network goerli verify [ERC20 contract address] Liquidity LST
 
 ------ // ------
 
-## Liquidity contract address
+## Liquidity contract
+
+### Liquidity contract address
 
 0xCd9E33b6681Ba4b6475396240a5029Fa03e39C89s
 
@@ -24,7 +26,7 @@ npx hardhat --network goerli verify [ERC20 contract address] Liquidity LST
 
 ------ // ------
 
-## Liquidity contract address
+## WETH contract
 
 ```shell
 ## deploying WETH contract
@@ -33,8 +35,8 @@ npx hardhat --network goerli verify [contract address]
 npx hardhat verify --network goerli 0xda51202fC5dabaF9EABcb37Ed77c97C290BC3D73
 ```
 
-### Contract WETH address
+### WETH address
 
------- // 0xda51202fC5dabaF9EABcb37Ed77c97C290BC3D73 // ------
+#### 0xda51202fC5dabaF9EABcb37Ed77c97C290BC3D73
 
 [verified WETH contract to goerli.etherscan.io](https://goerli.etherscan.io/address/0xda51202fC5dabaF9EABcb37Ed77c97C290BC3D73#code) -->
