@@ -5,7 +5,6 @@ async function main() {
     console.log("Deploying StakingRewards contract");
     const StakingRewards = await ethers.getContractFactory("StakingRewards");
     const stakingRewards_token = await StakingRewards.deploy(ERC20_CONTRACT_ADDRESS, LP_CONTRACT_ADDRESS); //(address _stakingToken, address _rewardsToken)
-
     await stakingRewards_token.deployed();
     console.log("StakingRewards contract deployed to:", stakingRewards_token.address);
 }

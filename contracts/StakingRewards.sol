@@ -11,10 +11,37 @@ contract StakingRewards is AccessControl {
     ERC20 public immutable rewardsToken;
 
     constructor(address _stakingToken, address _rewardsToken) {
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         stakingToken=IERC20(_stakingToken);
         rewardsToken=ERC20(_rewardsToken);
     }
 
+    struct Stakeholder {
+        uint256 amount;
+        uint256 rewardsAvailable;
+        uint256 stakingTime;
+    }
+
+    mapping(address => Stakeholder) public stakeholders;
+
     event Stake(address indexed staker, uint256 amount);
     event Unstake(address indexed staker, uint256 amount);
+
+    //transfers LP tokes from the user to the contract. 
+    function stake(uint256 stakedAmount) external returns (bool) {
+        require(stakingToken.balanceOf(msg.sender) >= stakedAmount, 'Not enought funds');
+
+        stakeholders[msg.sender].amount += stakedAmount;
+        stakeholders[msg.sender].stakingTime += block.timestamp;
+
+        stakingToken.transferFrom(msg.sender, address(this), stakedAmount);
+        emit Stake(msg.sender, stakedAmount);
+        return true;
+    }
+
+    //withdraws reward tokens available to the user from the contract
+    function claim() public {}
+
+    //withdraws LP tokens available for withdrawal.
+    function unstake() public {}
 }
