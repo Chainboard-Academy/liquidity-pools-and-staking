@@ -39,4 +39,4 @@ npx hardhat verify --network goerli 0xda51202fC5dabaF9EABcb37Ed77c97C290BC3D73
 
 #### 0xda51202fC5dabaF9EABcb37Ed77c97C290BC3D73
 
-[verified WETH contract to goerli.etherscan.io](https://goerli.etherscan.io/address/0xda51202fC5dabaF9EABcb37Ed77c97C290BC3D73#code) -->
+[verified WETH contract to goerli.etherscan.io](https://goerli.etherscan.io/address/0xda51202fC5dabaF9EABcb37Ed77c97C290BC3D73#code)
