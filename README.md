@@ -1,8 +1,7 @@
 # Staking Rewards Contract
 
-## deploying ERC20 contract
-
 ```shell
+## deploying ERC20 contract
 npx hardhat run scripts/deploy_erc20.ts --network goerli
 npx hardhat --network goerli verify [ERC20 contract address] Liquidity LST
 ```
