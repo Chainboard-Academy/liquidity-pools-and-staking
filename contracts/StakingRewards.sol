@@ -6,7 +6,7 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 contract StakingRewards is AccessControl {
-    uint256 dayInMinutes = 24 * 60;
+    uint256 dayInSec = 24 * 60 * 60;
     uint256 public minStakingDays = 2;
     uint256 public rewardsRate;
     uint256 public minStakingTime;
@@ -17,8 +17,8 @@ contract StakingRewards is AccessControl {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         stakingToken=IERC20(_stakingToken); //ERC20
         rewardsToken=ERC20(_rewardsToken);//LP
-        rewardsRate = 10;
-        minStakingTime = dayInMinutes;
+        rewardsRate = 1;
+        minStakingTime = dayInSec;
     }
 
     struct Stakeholder {
@@ -34,6 +34,7 @@ contract StakingRewards is AccessControl {
     event Claim(address indexed stakeholders, uint256 amount);
 
      modifier updateReward() {
+        require(stakeholders[msg.sender].stakingTime + minStakingTime < block.timestamp, "Withdrawals not available yet");
         uint256 reward_updated = _calculateRewards(msg.sender);
         stakeholders[msg.sender].rewards = reward_updated;
         rewardsToken.increaseAllowance(msg.sender, reward_updated);
@@ -41,7 +42,7 @@ contract StakingRewards is AccessControl {
     }
 
     modifier checkMinStakingTime(){
-        require(stakeholders[msg.sender].stakingTime + minStakingTime * 1 minutes < block.timestamp, "Withdrawals not available yet");
+        require(stakeholders[msg.sender].stakingTime + minStakingTime < block.timestamp, "Withdrawals not available yet");
         _;
     }
 
@@ -80,7 +81,7 @@ contract StakingRewards is AccessControl {
     }
 
     //withdraws all of the rewards available to the user from the contract
-    function claim() updateReward checkMinStakingTime external returns(bool) {
+    function claim() updateReward external returns(bool) {
         uint256 reward = stakeholders[msg.sender].rewards;
         rewardsToken.transfer(msg.sender, reward);
         stakeholders[msg.sender].rewards = 0;
@@ -91,19 +92,14 @@ contract StakingRewards is AccessControl {
 
     //----internal functions----
     function _calculateRewards(address stakeholder) internal returns(uint) {
-        uint256 stakedTime =_getStakeHoldersStakingTime(stakeholder);
+        uint256 stakedTime =stakeholders[stakeholder].stakingTime;
         uint256 time = block.timestamp - stakedTime;
-        uint units = time / 1 minutes;
+        uint units = time;
         uint updatedRewards;
         for (uint256 i = 0; i < units; i++){
-            updatedRewards = stakeholders[stakeholder].amount / rewardsRate;
+            updatedRewards = stakeholders[stakeholder].amount * rewardsRate;
             stakeholders[stakeholder].rewards += updatedRewards;
         }
         return updatedRewards;
-
-    }
-
-    function _getStakeHoldersStakingTime(address stakeHolder) internal view returns (uint256) {
-        return stakeholders[stakeHolder].stakingTime;
     }
 }
