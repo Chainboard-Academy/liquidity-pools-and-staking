@@ -5,7 +5,6 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
 
 describe("StakingRewards", function () {
-
     let StakingRewards;
     let ERC20;
     let staking_rewards_token: any;
@@ -82,7 +81,7 @@ describe("StakingRewards", function () {
             it('reverts transaction, due to not enough funds', async () => {
                 const balance = await erc20_token.balanceOf(account1.address);
                 const tx = staking_rewards_token.connect(account1).stake((balance + 1));
-                await expect(tx).to.be.revertedWith("Not enough funds");
+                await expect(tx).to.be.revertedWith("Sender balance is too low");
             });
         });
     });
