@@ -56,25 +56,22 @@ contract StakingRewards is AccessControl {
         emit Stake(msg.sender, stakedAmount);
         return true;
     }
-    //withdraws LP tokens available for withdrawal.
-    function unstake() updateReward external returns(bool) {
-        uint256 rewards_available = stakeholders[msg.sender].amount;
-        stakeholders[msg.sender].amount - rewards_available;
-        rewardsToken.transfer(msg.sender, rewards_available);
-        emit Unstake(msg.sender, rewards_available);
-
-        // rewardsToken.decreaseAllowance(msg.sender, rewards_available);
+    //withdraws tokens to the user from the contract
+    function unstake(uint256 _amount) external returns (bool) {
+        require(stakeholders[msg.sender].amount >= _amount, "Not enoughs funds");
+        stakingToken.transfer(msg.sender, _amount);
+        stakeholders[msg.sender].amount-= _amount;
+        emit Unstake(msg.sender, _amount);
         return true;
     }
 
-    //withdraws reward tokens available to the user from the contract
-    function claim(uint256 _amount) updateReward external returns(bool) {
-        uint256 rewards_available = stakeholders[msg.sender].amount;
-        require(_amount >= rewards_available, "No enough funds to withdraw");
-        stakeholders[msg.sender].amount - _amount;
-        rewardsToken.transfer(msg.sender, _amount);
-        emit Unstake(msg.sender, _amount);
-        // rewardsToken.decreaseAllowance(msg.sender, _amount);
+    //withdraws all of the tokens available to the user from the contract
+    function claim() updateReward external returns(bool) {
+        uint256 reward = stakeholders[msg.sender].rewards;
+        rewardsToken.transfer(msg.sender, reward);
+        stakeholders[msg.sender].rewards = 0;
+        rewardsToken.decreaseAllowance(msg.sender, reward);
+        emit Unstake(msg.sender, reward);
         return true;
     }
 
