@@ -10,6 +10,7 @@ contract StakingRewards is AccessControl {
     uint256 public minStakingDays = 2;
     uint256 public rewardsRate;
     uint256 public minStakingTime;
+    uint256 public al;
     IERC20 public immutable stakingToken;
     ERC20 public immutable rewardsToken;
 
@@ -31,13 +32,14 @@ contract StakingRewards is AccessControl {
 
     event Stake(address indexed stakeholder, uint256 amount);
     event Unstake(address indexed stakeholders, uint256 amount);
-    event Claim(address indexed stakeholders, uint256 amount);
 
-     modifier updateReward() {
-        require(stakeholders[msg.sender].stakingTime + minStakingTime < block.timestamp, "Withdrawals not available yet");
-        uint256 reward_updated = _calculateRewards(msg.sender);
-        stakeholders[msg.sender].rewards = reward_updated;
-        rewardsToken.increaseAllowance(msg.sender, reward_updated);
+     modifier updateRewards(address _stakeholder) {
+               require(
+            stakeholders[_stakeholder].stakingTime + minStakingTime < block.timestamp,
+            "Withdrawals not available yet"
+        );
+        stakeholders[_stakeholder].rewards = _calculateRewards(msg.sender);
+        rewardsToken.increaseAllowance(_stakeholder, stakeholders[_stakeholder].rewards);
         _;
     }
 
@@ -46,11 +48,11 @@ contract StakingRewards is AccessControl {
         _;
     }
 
-    function getStakeHoldersStakedAmount(address stakeHolder) external view returns (uint256) {
+    function getStakedAmount(address stakeHolder) external view returns (uint256) {
         return stakeholders[stakeHolder].amount;
     }
 
-    function getStakeHoldersAvailableRewards(address stakeHolder) external view returns (uint256) {
+    function getAvailableRewards(address stakeHolder) external view returns (uint256) {
         return stakeholders[stakeHolder].rewards;
     }
 
@@ -81,25 +83,20 @@ contract StakingRewards is AccessControl {
     }
 
     //withdraws all of the rewards available to the user from the contract
-    function claim() updateReward external returns(bool) {
-        uint256 reward = stakeholders[msg.sender].rewards;
-        rewardsToken.transfer(msg.sender, reward);
+    function claim() updateRewards(msg.sender) public returns(bool) {
+        uint256 rewards_available = stakeholders[msg.sender].rewards;
+        rewardsToken.transfer(msg.sender, rewards_available);
         stakeholders[msg.sender].rewards = 0;
-        rewardsToken.decreaseAllowance(msg.sender, reward);
-        emit Claim(msg.sender, reward);
+        rewardsToken.decreaseAllowance(msg.sender, rewards_available);
         return true;
     }
 
     //----internal functions----
     function _calculateRewards(address stakeholder) internal returns(uint) {
         uint256 stakedTime =stakeholders[stakeholder].stakingTime;
-        uint256 time = block.timestamp - stakedTime;
-        uint units = time;
-        uint updatedRewards;
-        for (uint256 i = 0; i < units; i++){
-            updatedRewards = stakeholders[stakeholder].amount * rewardsRate;
-            stakeholders[stakeholder].rewards += updatedRewards;
-        }
-        return updatedRewards;
+        uint256 units = block.timestamp - stakedTime;
+        uint256 updatedRewards = stakeholders[stakeholder].amount * rewardsRate * (units /100000);
+        stakeholders[stakeholder].rewards += updatedRewards;
+        return stakeholders[stakeholder].rewards;
     }
 }
