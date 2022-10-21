@@ -97,4 +97,18 @@ describe("StakingRewards", function () {
             expect(rewards_balance).to.equal(0);
         });
     });
+
+    describe('Rewards Rate', function () {
+        it('changes rate', async function () {
+            const new_rate = 100;
+            await staking_rewards_token.setRewardRate(new_rate);
+            const new_reward_rate = await staking_rewards_token.getRewardRate();
+            expect(new_reward_rate).to.equal(new_rate);
+        });
+        it('reverts to change', async function () {
+            const new_rate = 100;
+            const tx = staking_rewards_token.connect(account1).setRewardRate(new_rate);
+            await expect(tx).to.be.reverted;
+        });
+    });
 });

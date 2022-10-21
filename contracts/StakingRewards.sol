@@ -45,7 +45,11 @@ contract StakingRewards is AccessControl {
         return stakeholders[stakeHolder].rewards;
     }
 
-    function changeRewardRate(uint256 newRate) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function getRewardRate() external view returns(uint256){
+        return rewardsRate;
+    }
+
+    function setRewardRate(uint256 newRate) external onlyRole(DEFAULT_ADMIN_ROLE) {
         rewardsRate = newRate;
     }
 
@@ -57,6 +61,7 @@ contract StakingRewards is AccessControl {
         emit Stake(msg.sender, stakedAmount);
         return true;
     }
+
     //withdraws all rewards to the user from the contract
     function unstake(uint256 _amount) external returns (bool) {
         require(stakeholders[msg.sender].amount >= _amount, "Not enoughs funds");
@@ -66,7 +71,7 @@ contract StakingRewards is AccessControl {
         return true;
     }
 
-    //withdraws all of the tokens available to the user from the contract
+    //withdraws all of the rewards available to the user from the contract
     function claim() updateReward(msg.sender) external returns(bool) {
         uint256 reward = stakeholders[msg.sender].rewards;
         rewardsToken.transfer(msg.sender, reward);
