@@ -54,7 +54,6 @@ contract StakingRewards is AccessControl {
 
         stakeholders[msg.sender].amount += stakedAmount;
         stakeholders[msg.sender].stakingTime += block.timestamp;
-        // stakingToken.increaseAllowance(msg.sender, stakedAmount);
         stakingToken.transferFrom(msg.sender, address(this), stakedAmount); //transfer amount from ERC20 contract to this WETH contract
         emit Stake(msg.sender, stakedAmount);
         return true;

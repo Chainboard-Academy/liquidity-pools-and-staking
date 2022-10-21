@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
+import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract ERCStandard20 {
+contract ERCStandard20 is AccessControl {
     /**
      * **** PRIVATE STATE VARIABLES ****
      */
@@ -33,6 +34,7 @@ contract ERCStandard20 {
 
 
     constructor(string memory name_, string memory symbol_) {
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _name = name_;
         _symbol = symbol_;
         _contractOwner = payable(msg.sender);
@@ -115,7 +117,7 @@ contract ERCStandard20 {
      *
      * - `account` cannot be the zero address.
      */
-    function mint(address account, uint256 amount) public onlyOwner returns (bool){
+    function mint(address account, uint256 amount) public onlyRole(DEFAULT_ADMIN_ROLE) returns (bool){
         require(account != address(0), "ERC20: mint to the zero address");
 
         _balances[account] += amount;
@@ -134,7 +136,7 @@ contract ERCStandard20 {
      */
     function burn(address account, uint256 amount)
         public
-        onlyOwner
+        onlyRole(DEFAULT_ADMIN_ROLE)
         returns (bool)
     {
         require(
