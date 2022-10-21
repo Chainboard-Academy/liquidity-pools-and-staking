@@ -105,7 +105,7 @@ describe("StakingRewards", function () {
             const new_reward_rate = await staking_rewards_token.getRewardRate();
             expect(new_reward_rate).to.equal(new_rate);
         });
-        it('reverts to change', async function () {
+        it('reverts to change due to access control', async function () {
             const new_rate = 100;
             const tx = staking_rewards_token.connect(account1).setRewardRate(new_rate);
             await expect(tx).to.be.reverted;
