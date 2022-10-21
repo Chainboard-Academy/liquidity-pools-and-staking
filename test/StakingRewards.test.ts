@@ -86,19 +86,15 @@ describe("StakingRewards", function () {
             await erc20_token.connect(account1).approve(staking_rewards_token.address, 10);
             await staking_rewards_token.connect(account1).stake(10);
         });
-        it('withdraws all of the tokens from the contract to the user', async function () {
+        it('withdraws all rewards from the contract to the user', async function () {
             const initial_acc_balance = await erc20_token.balanceOf(account1.address);
-            const initial_staking_balance = await staking_rewards_token.getStakeHoldersStakedAmount(account1.address);
-            // 2 weeks passed
-            await ethers.provider.send("evm_increaseTime", [
-                100000 + 60,
-            ]);
+            const initial_rewards_balance = await staking_rewards_token.getStakeHoldersAvailableRewards(account1.address);
             const tx = staking_rewards_token.connect(account1).claim();
-            await expect(tx).to.emit(staking_rewards_token, "Unstake").withArgs(account1.address, initial_staking_balance);
-            const staking_balance = await staking_rewards_token.getStakeHoldersStakedAmount(account1.address);
+            await expect(tx).to.emit(staking_rewards_token, "Claim").withArgs(account1.address, initial_rewards_balance);
+            const rewards_balance = await staking_rewards_token.getStakeHoldersAvailableRewards(account1.address);
             const acc_balance = await erc20_token.balanceOf(account1.address);
-            expect(initial_acc_balance.add(initial_staking_balance)).to.equal(acc_balance);
-            // expect(staking_balance).to.equal(0);
+            expect(initial_acc_balance.add(initial_rewards_balance)).to.equal(acc_balance);
+            expect(rewards_balance).to.equal(0);
         });
     });
 });

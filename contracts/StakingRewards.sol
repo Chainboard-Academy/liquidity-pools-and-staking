@@ -28,11 +28,12 @@ contract StakingRewards is AccessControl {
 
     event Stake(address indexed stakeholder, uint256 amount);
     event Unstake(address indexed stakeholders, uint256 amount);
+    event Claim(address indexed stakeholders, uint256 amount);
 
-     modifier updateReward() {
-        uint256 reward_updated = _calculateRewards(msg.sender);
-        stakeholders[msg.sender].rewards = reward_updated;
-        rewardsToken.increaseAllowance(msg.sender, reward_updated);
+     modifier updateReward(address stakeholder) {
+        uint256 reward_updated = _calculateRewards(stakeholder);
+        stakeholders[stakeholder].rewards = reward_updated;
+        rewardsToken.increaseAllowance(stakeholder, reward_updated);
         _;
     }
 
@@ -56,7 +57,7 @@ contract StakingRewards is AccessControl {
         emit Stake(msg.sender, stakedAmount);
         return true;
     }
-    //withdraws tokens to the user from the contract
+    //withdraws all rewards to the user from the contract
     function unstake(uint256 _amount) external returns (bool) {
         require(stakeholders[msg.sender].amount >= _amount, "Not enoughs funds");
         stakingToken.transfer(msg.sender, _amount);
@@ -66,12 +67,12 @@ contract StakingRewards is AccessControl {
     }
 
     //withdraws all of the tokens available to the user from the contract
-    function claim() updateReward external returns(bool) {
+    function claim() updateReward(msg.sender) external returns(bool) {
         uint256 reward = stakeholders[msg.sender].rewards;
         rewardsToken.transfer(msg.sender, reward);
         stakeholders[msg.sender].rewards = 0;
         rewardsToken.decreaseAllowance(msg.sender, reward);
-        emit Unstake(msg.sender, reward);
+        emit Claim(msg.sender, reward);
         return true;
     }
 
