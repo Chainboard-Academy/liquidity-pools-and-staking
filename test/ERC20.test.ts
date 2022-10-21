@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { ethers } from "hardhat";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
-describe('ERC20', function () {
+describe('ERCStandard20', function () {
   const contractName = 'Liquidity';
   const contractSymbol = 'LST';
   const decimals = 18;
@@ -14,7 +14,7 @@ describe('ERC20', function () {
   const zero_address = "0x0000000000000000000000000000000000000000";
 
   before(async function () {
-    const ERC20 = await ethers.getContractFactory("ERC20");
+    const ERC20 = await ethers.getContractFactory("ERCStandard20");
     [owner, account1, account2] = await ethers.getSigners();
     token = await ERC20.deploy(contractName, contractSymbol);
   });

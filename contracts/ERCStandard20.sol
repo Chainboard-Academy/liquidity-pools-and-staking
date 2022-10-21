@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-contract ERC20 {
+contract ERCStandard20 {
     /**
      * **** PRIVATE STATE VARIABLES ****
      */

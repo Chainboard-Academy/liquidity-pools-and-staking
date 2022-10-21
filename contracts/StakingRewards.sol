@@ -26,21 +26,21 @@ contract StakingRewards is AccessControl {
 
     mapping(address => Stakeholder) public stakeholders;
 
-    event Stake(address indexed staker, uint256 amount);
-    event Unstake(address indexed staker, uint256 amount);
+    event Stake(address indexed stakeholder, uint256 amount);
+    event Unstake(address indexed stakeholders, uint256 amount);
 
      modifier updateReward() {
         uint256 reward_updated = _calculateRewards(msg.sender);
         stakeholders[msg.sender].rewards = reward_updated;
-        rewardsToken.increaseAllowance(msg.sender, reward_updated);
+        // rewardsToken.increaseAllowance(msg.sender, reward_updated);
         _;
     }
 
-    function getStakeHoldersStake(address stakeHolder) external view returns (uint256) {
+    function getStakeHoldersStakedAmount(address stakeHolder) external view returns (uint256) {
         return stakeholders[stakeHolder].amount;
     }
 
-    function getStakeHoldersRewards(address stakeHolder) external view returns (uint256) {
+    function getStakeHoldersAvailableRewards(address stakeHolder) external view returns (uint256) {
         return stakeholders[stakeHolder].rewards;
     }
 
@@ -50,11 +50,11 @@ contract StakingRewards is AccessControl {
 
     //transfers LP tokes from the user to the contract. 
     function stake(uint256 stakedAmount) external returns (bool) {
-        require(stakingToken.balanceOf(msg.sender) >= stakedAmount, 'Not enought funds');
+        require(stakingToken.balanceOf(msg.sender) >= stakedAmount, 'Not enough funds');
 
         stakeholders[msg.sender].amount += stakedAmount;
         stakeholders[msg.sender].stakingTime += block.timestamp;
-
+        // stakingToken.increaseAllowance(msg.sender, stakedAmount);
         stakingToken.transferFrom(msg.sender, address(this), stakedAmount); //transfer amount from ERC20 contract to this WETH contract
         emit Stake(msg.sender, stakedAmount);
         return true;
@@ -64,7 +64,9 @@ contract StakingRewards is AccessControl {
         uint256 rewards_available = stakeholders[msg.sender].amount;
         stakeholders[msg.sender].amount - rewards_available;
         rewardsToken.transfer(msg.sender, rewards_available);
-        rewardsToken.decreaseAllowance(msg.sender, rewards_available);
+        emit Unstake(msg.sender, rewards_available);
+
+        // rewardsToken.decreaseAllowance(msg.sender, rewards_available);
         return true;
     }
 
@@ -74,7 +76,8 @@ contract StakingRewards is AccessControl {
         require(_amount >= rewards_available, "No enough funds to withdraw");
         stakeholders[msg.sender].amount - _amount;
         rewardsToken.transfer(msg.sender, _amount);
-        rewardsToken.decreaseAllowance(msg.sender, _amount);
+        emit Unstake(msg.sender, _amount);
+        // rewardsToken.decreaseAllowance(msg.sender, _amount);
         return true;
     }
 
