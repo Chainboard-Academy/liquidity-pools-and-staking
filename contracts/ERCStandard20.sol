@@ -42,10 +42,6 @@ contract ERCStandard20 is AccessControl {
         _balances[_contractOwner] = _totalSupply;
     }
 
-    modifier onlyOwner() {
-        require(msg.sender == _contractOwner, "Access restricted to only owner");
-        _;
-    }
     /**
     * **** PUBLIC VIEW FUNCIONS *****
     */

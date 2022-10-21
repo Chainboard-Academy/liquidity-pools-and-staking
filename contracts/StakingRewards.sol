@@ -32,7 +32,7 @@ contract StakingRewards is AccessControl {
      modifier updateReward() {
         uint256 reward_updated = _calculateRewards(msg.sender);
         stakeholders[msg.sender].rewards = reward_updated;
-        // rewardsToken.increaseAllowance(msg.sender, reward_updated);
+        rewardsToken.increaseAllowance(msg.sender, reward_updated);
         _;
     }
 
@@ -50,8 +50,6 @@ contract StakingRewards is AccessControl {
 
     //transfers LP tokes from the user to the contract. 
     function stake(uint256 stakedAmount) external returns (bool) {
-        require(stakingToken.balanceOf(msg.sender) >= stakedAmount, 'Not enough funds');
-
         stakeholders[msg.sender].amount += stakedAmount;
         stakeholders[msg.sender].stakingTime += block.timestamp;
         stakingToken.transferFrom(msg.sender, address(this), stakedAmount); //transfer amount from ERC20 contract to this WETH contract

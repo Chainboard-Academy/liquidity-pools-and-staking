@@ -6,7 +6,7 @@ describe('ERCStandard20', function () {
   const contractName = 'Liquidity';
   const contractSymbol = 'LST';
   const decimals = 18;
-  const total_supply = 1000;
+  // const total_supply = 1000;
   let token: any;
   let owner: SignerWithAddress;
   let account1: SignerWithAddress;
@@ -45,11 +45,11 @@ describe('ERCStandard20', function () {
       expect(new_balance).to.equal(balance.add(100));
       expect(new_total_supply).to.equal(total_supply.add(100));
     });
-    it('revert transaction, due to wrong address', async function () {
+    it('revert transaction, due to zero address', async function () {
       await expect(token.mint(zero_address, 100)).to.be.revertedWith("ERC20: mint to the zero address");
     });
     it('revert transaction, due to done not by the owner', async function () {
-      await expect(token.connect(account1).mint(account2.address, 100)).to.be.revertedWith("Access restricted to only owner");
+      await expect(token.connect(account2).mint(account2.address, 100)).to.be.reverted;
     });
   });
   describe('Burn', () => {
@@ -71,7 +71,8 @@ describe('ERCStandard20', function () {
       });
       it('due is called by not the owner of the contract', async function () {
         let tx = token.connect(account1).burn(account1.address, 1);
-        await expect(tx).to.be.revertedWith("Access restricted to only owner");
+        await expect(tx).to.be.to.be.reverted;
+
       });
     });
   });
