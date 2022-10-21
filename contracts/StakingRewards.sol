@@ -6,8 +6,10 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 contract StakingRewards is AccessControl {
+    uint256 dayInMinutes = 24 * 60;
     uint256 public minStakingDays = 2;
-    uint public rewardsRate;
+    uint256 public rewardsRate;
+    uint256 public minStakingTime;
     IERC20 public immutable stakingToken;
     ERC20 public immutable rewardsToken;
 
@@ -16,6 +18,7 @@ contract StakingRewards is AccessControl {
         stakingToken=IERC20(_stakingToken); //ERC20
         rewardsToken=ERC20(_rewardsToken);//LP
         rewardsRate = 10;
+        minStakingTime = dayInMinutes;
     }
 
     struct Stakeholder {
@@ -30,10 +33,15 @@ contract StakingRewards is AccessControl {
     event Unstake(address indexed stakeholders, uint256 amount);
     event Claim(address indexed stakeholders, uint256 amount);
 
-     modifier updateReward(address stakeholder) {
-        uint256 reward_updated = _calculateRewards(stakeholder);
-        stakeholders[stakeholder].rewards = reward_updated;
-        rewardsToken.increaseAllowance(stakeholder, reward_updated);
+     modifier updateReward() {
+        uint256 reward_updated = _calculateRewards(msg.sender);
+        stakeholders[msg.sender].rewards = reward_updated;
+        rewardsToken.increaseAllowance(msg.sender, reward_updated);
+        _;
+    }
+
+    modifier checkMinStakingTime(){
+        require(stakeholders[msg.sender].stakingTime + minStakingTime * 1 minutes < block.timestamp, "Withdrawals not available yet");
         _;
     }
 
@@ -53,7 +61,7 @@ contract StakingRewards is AccessControl {
         rewardsRate = newRate;
     }
 
-    //transfers LP tokes from the user to the contract. 
+    //transfers LP tokes from the user to the contract.
     function stake(uint256 stakedAmount) external returns (bool) {
         stakeholders[msg.sender].amount += stakedAmount;
         stakeholders[msg.sender].stakingTime += block.timestamp;
@@ -63,7 +71,7 @@ contract StakingRewards is AccessControl {
     }
 
     //withdraws all rewards to the user from the contract
-    function unstake(uint256 _amount) external returns (bool) {
+    function unstake(uint256 _amount) external checkMinStakingTime returns (bool) {
         require(stakeholders[msg.sender].amount >= _amount, "Not enoughs funds");
         stakingToken.transfer(msg.sender, _amount);
         stakeholders[msg.sender].amount-= _amount;
@@ -72,7 +80,7 @@ contract StakingRewards is AccessControl {
     }
 
     //withdraws all of the rewards available to the user from the contract
-    function claim() updateReward(msg.sender) external returns(bool) {
+    function claim() updateReward checkMinStakingTime external returns(bool) {
         uint256 reward = stakeholders[msg.sender].rewards;
         rewardsToken.transfer(msg.sender, reward);
         stakeholders[msg.sender].rewards = 0;
