@@ -33,13 +33,13 @@ contract StakingRewards is AccessControl {
     event Stake(address indexed stakeholder, uint256 amount);
     event Unstake(address indexed stakeholders, uint256 amount);
 
-     modifier updateRewards(address _stakeholder) {
+     modifier updateRewards() {
                require(
-            stakeholders[_stakeholder].stakingTime + minStakingTime < block.timestamp,
+            stakeholders[msg.sender].stakingTime + minStakingTime < block.timestamp,
             "Withdrawals not available yet"
         );
-        stakeholders[_stakeholder].rewards = _calculateRewards(msg.sender);
-        rewardsToken.increaseAllowance(_stakeholder, stakeholders[_stakeholder].rewards);
+        stakeholders[msg.sender].rewards = _calculateRewards(msg.sender);
+        rewardsToken.increaseAllowance(msg.sender, stakeholders[msg.sender].rewards);
         _;
     }
 
@@ -83,7 +83,7 @@ contract StakingRewards is AccessControl {
     }
 
     //withdraws all of the rewards available to the user from the contract
-    function claim() updateRewards(msg.sender) public returns(bool) {
+    function claim() updateRewards public returns(bool) {
         uint256 rewards_available = stakeholders[msg.sender].rewards;
         rewardsToken.transfer(msg.sender, rewards_available);
         stakeholders[msg.sender].rewards = 0;
