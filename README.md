@@ -48,7 +48,6 @@ npx hardhat increaseAllowance --account [ACCOUNT] --amount [value]--network goer
 ## deploying WETH contract
 npx hardhat run scripts/deploy_weth.ts --network goerli
 npx hardhat --network goerli verify [contract address]
-npx hardhat verify --network goerli 0xda51202fC5dabaF9EABcb37Ed77c97C290BC3D73
 ```
 
 ### WETH address
@@ -56,6 +55,16 @@ npx hardhat verify --network goerli 0xda51202fC5dabaF9EABcb37Ed77c97C290BC3D73
 #### 0xda51202fC5dabaF9EABcb37Ed77c97C290BC3D73
 
 [contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0xda51202fC5dabaF9EABcb37Ed77c97C290BC3D73#code)
+
+tasks:
+
+```shell
+npx hardhat deposit --amount [value] --network goerli
+npx hardhat withdraw --amount [value] --network goerli
+npx hardhat withdraw --amount 1 --network goerli
+
+
+```
 
 
 ## Staking Rewards Token
