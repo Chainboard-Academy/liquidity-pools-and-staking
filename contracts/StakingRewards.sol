@@ -73,7 +73,7 @@ contract StakingRewards is AccessControl {
         return true;
     }
 
-    //withdraws all rewards to the user from the contract
+    //withdraws tokens to the user from the contract
     function unstake(uint256 _amount) external checkMinStakingTime returns (bool) {
         require(stakeholders[msg.sender].amount >= _amount, "Not enoughs funds");
         stakingToken.transfer(msg.sender, _amount);

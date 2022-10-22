@@ -61,11 +61,7 @@ tasks:
 ```shell
 npx hardhat deposit --amount [value] --network goerli
 npx hardhat withdraw --amount [value] --network goerli
-npx hardhat withdraw --amount 1 --network goerli
-
-
 ```
-
 
 ## Staking Rewards Token
 
@@ -78,5 +74,11 @@ npx hardhat --network goerli verify [Token address] [ERC20_CONTRACT_ADDRESS] [LP
 
 [contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0xFb0a0270b90076fcA1b70946064ba4043A3d1991#code)
 
+tasks:
 
+```shell
+npx hardhat stake --amount [value] --network goerli
+npx hardhat stake --amount 1 --network goerli
+# npx hardhat withdraw --amount [value] --network goerli
+```
 =============================
