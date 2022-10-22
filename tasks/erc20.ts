@@ -4,7 +4,7 @@ import "@nomiclabs/hardhat-ethers";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const ERCStandard20_CONTRACT_ADDRESS: string = process.env.ERCStandard20_CONTRACT_ADDRESS || '0xb6a18F555633b224a991502ED97c9fccED1C9924';
+const ERCStandard20_CONTRACT_ADDRESS: string = process.env.ERC20_CONTRACT_ADDRESS || '';
 
 
 task("mint", "Transfers tokens to an account")
@@ -39,11 +39,11 @@ task("transfer", "Transfers tokens to a given account")
     .addParam("to", "Recipient's address")
     .addParam("amount", "Amount to transfer")
     .setAction(async (taskArgs, hre) => {
-        const account = taskArgs.account;
+        const to = taskArgs.to;
         const contract = await hre.ethers.getContractAt("ERCStandard20", ERCStandard20_CONTRACT_ADDRESS);
         const amount = hre.ethers.utils.parseUnits(taskArgs.amount, await contract.decimals());
 
-        let tx = await contract.transfer(account, amount);
+        let tx = await contract.transfer(to, amount);
         console.log(`Transfer transaction from ${tx.from} to ${tx.to} with ${tx.hash} was successful`);
     });
 
