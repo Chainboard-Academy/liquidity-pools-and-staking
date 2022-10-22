@@ -5,6 +5,7 @@ import "@nomicfoundation/hardhat-chai-matchers";
 import "@nomiclabs/hardhat-ethers";
 import "@openzeppelin/hardhat-upgrades";
 import * as dotenv from "dotenv";
+import "./tasks/erc20";
 dotenv.config();
 
 const ALCHEMY_PROJECT_ID = process.env.ALCHEMY_PROJECT_ID || '';

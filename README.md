@@ -5,14 +5,34 @@
 ```shell
 ## deploying ERC20 contract
 npx hardhat run scripts/deploy_erc20.ts --network goerli
-npx hardhat --network goerli verify 0x2abE958e34379aB150aa230E3f780cC69b60d529 Liquidity LST
+npx hardhat --network goerli verify [contract address] Liquidity LST 
+npx hardhat --network goerli verify 0xb6a18F555633b224a991502ED97c9fccED1C9924 Liquidity LST
 ```
 
 ### ERC20 address
 
-#### 0x2abE958e34379aB150aa230E3f780cC69b60d529
+#### 0xb6a18F555633b224a991502ED97c9fccED1C9924
 
-[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0x2abE958e34379aB150aa230E3f780cC69b60d529#code)
+[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0xb6a18F555633b224a991502ED97c9fccED1C9924#code)
+
+
+tasks:
+
+```shell
+npx hardhat supply --network goerli
+npx hardhat balance --account [address] --network goerli
+npx hardhat mint --account [address] --network goerli
+npx hardhat transfer --account [address] --amount [value] --network goerli
+
+
+npx hardhat balance --account 0xfba2F0576C2Cd36f833052f99CA5b3659E1cd9ef --network goerli
+npx hardhat transfer --account 0x80dD5aD6B8775c4E31C999cA278Ef4D035717872 --amount 1 --network goerli
+npx hardhat transfer --account [address] --amount [value] --network goerli
+npx hardhat transferFrom --account [address] --sender [address] --amount [value] --network goerli
+npx hardhat allowance --account [ACCOUNT] --network goerli
+npx hardhat decreaseAllowance --account [ACCOUNT] --amount [value]--network goerli
+npx hardhat increaseAllowance --account [ACCOUNT] --amount [value]--network goerli
+```
 
 ==============================
 
