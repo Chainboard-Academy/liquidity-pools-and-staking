@@ -32,10 +32,9 @@ task("balance", "Prints an account's balance")
     .addParam("account", "The account's address")
     .setAction(async (taskArgs: { account: any; }, hre) => {
         const contract = await hre.ethers.getContractAt("ERCStandard20", ERCStandard20_CONTRACT_ADDRESS);
-        // const account = taskArgs.account;
-        // const balance = await contract.balanceOf(account);
-        // console.log("Balance is", balance.toString());
-        console.log(contract)
+        const account = taskArgs.account;
+        const balance = await contract.balanceOf(account);
+        console.log("Balance is", balance.toString());
     });
 
 task("transfer", "Transfers tokens to a given account")
@@ -62,7 +61,6 @@ task("transferFrom", "Transfers the amount of tokens from the from address to th
         console.log(amount, recipient, sender);
 
         await contract.connect(sender[0]).transferFrom(sender, recipient, amount);
-
     });
 
 task("increaseAllowance", "Increase allowance for an address")
