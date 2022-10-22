@@ -22,16 +22,12 @@ tasks:
 npx hardhat supply --network goerli
 npx hardhat balance --account [address] --network goerli
 npx hardhat mint --account [address] --network goerli
-npx hardhat transfer --account [address] --amount [value] --network goerli
-
-
-npx hardhat balance --account 0xfba2F0576C2Cd36f833052f99CA5b3659E1cd9ef --network goerli
-npx hardhat transfer --account 0x80dD5aD6B8775c4E31C999cA278Ef4D035717872 --amount 1 --network goerli
-npx hardhat transfer --account [address] --amount [value] --network goerli
-npx hardhat transferFrom --account [address] --sender [address] --amount [value] --network goerli
+npx hardhat transfer --to [address] --amount [value] --network goerli
+npx hardhat transferFrom --from [address] --to [address] --amount [value] --network goerli
 npx hardhat allowance --account [ACCOUNT] --network goerli
 npx hardhat decreaseAllowance --account [ACCOUNT] --amount [value]--network goerli
 npx hardhat increaseAllowance --account [ACCOUNT] --amount [value]--network goerli
+
 ```
 
 ==============================

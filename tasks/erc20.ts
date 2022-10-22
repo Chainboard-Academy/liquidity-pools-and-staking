@@ -3,9 +3,8 @@ import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-ethers";
 import * as dotenv from "dotenv";
 dotenv.config();
-let deployedContract: any;
 
-const ERCStandard20_CONTRACT_ADDRESS: string = process.env.ERCStandard20_CONTRACT_ADDRESS || '';
+const ERCStandard20_CONTRACT_ADDRESS: string = process.env.ERCStandard20_CONTRACT_ADDRESS || '0xb6a18F555633b224a991502ED97c9fccED1C9924';
 
 
 task("mint", "Transfers tokens to an account")
@@ -23,7 +22,6 @@ task("mint", "Transfers tokens to an account")
 
 task("supply", "Show total supply").setAction(async (_taskArgs, hre) => {
     const contract = await hre.ethers.getContractAt("ERCStandard20", ERCStandard20_CONTRACT_ADDRESS);
-
     let totalSupply = await contract.totalSupply();
     console.log("Total supply is", totalSupply.toString());
 });
@@ -38,7 +36,7 @@ task("balance", "Prints an account's balance")
     });
 
 task("transfer", "Transfers tokens to a given account")
-    .addParam("account", "Recipient's address")
+    .addParam("to", "Recipient's address")
     .addParam("amount", "Amount to transfer")
     .setAction(async (taskArgs, hre) => {
         const account = taskArgs.account;
@@ -50,17 +48,20 @@ task("transfer", "Transfers tokens to a given account")
     });
 
 task("transferFrom", "Transfers the amount of tokens from the from address to the to address")
-    .addParam("recipient", "The recipient's address")
-    .addParam("sender", "The sender's address")
+    .addParam("from", "The recipient's address")
+    .addParam("to", "The sender's address")
     .addParam("amount", "The amount to transfer")
     .setAction(async (taskArgs, hre) => {
         const contract = await hre.ethers.getContractAt("ERCStandard20", ERCStandard20_CONTRACT_ADDRESS);
+        const signer = await hre.ethers.getSigners();
         const amount = hre.ethers.utils.parseUnits(taskArgs.amount, await contract.decimals());
-        const recipient = taskArgs.recipient;
-        const sender = taskArgs.sender;
-        console.log(amount, recipient, sender);
+        const from = taskArgs.from;
+        const to = taskArgs.to;
+        console.log(signer[0].address);
 
-        await contract.connect(sender[0]).transferFrom(sender, recipient, amount);
+        const tx = await contract.connect(signer[0]).transferFrom(from, to, amount);
+        console.log(`TransferFrom behalf of account:${tx.from} to ${tx.to} with ${tx.hash} was successful`);
+
     });
 
 task("increaseAllowance", "Increase allowance for an address")
