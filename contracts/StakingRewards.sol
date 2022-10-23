@@ -34,10 +34,7 @@ contract StakingRewards is AccessControl {
     event Unstake(address indexed stakeholders, uint256 amount);
 
      modifier updateRewards() {
-               require(
-            stakeholders[msg.sender].stakingTime + minStakingTime < block.timestamp,
-            "Withdrawals not available yet"
-        );
+        require(stakeholders[msg.sender].stakingTime + minStakingTime < block.timestamp, "Withdrawals not available yet");
         stakeholders[msg.sender].rewards = _calculateRewards(msg.sender);
         rewardsToken.increaseAllowance(msg.sender, stakeholders[msg.sender].rewards);
         _;

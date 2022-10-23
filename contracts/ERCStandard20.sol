@@ -31,8 +31,6 @@ contract ERCStandard20 is AccessControl {
      */
     event Approval(address indexed owner, address indexed spender, uint256 _value);
 
-
-
     constructor(string memory name_, string memory symbol_) {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _name = name_;
@@ -119,8 +117,8 @@ contract ERCStandard20 is AccessControl {
         _balances[account] += amount;
         _totalSupply += amount;
 
-    emit Transfer(account, address(0), amount);
-    return true;
+        emit Transfer(account, address(0), amount);
+        return true;
     }
 
     /***
@@ -130,15 +128,8 @@ contract ERCStandard20 is AccessControl {
      * @param _account the account address which tokens will be deleted from
      * @param _amount the amount of money to burn
      */
-    function burn(address account, uint256 amount)
-        public
-        onlyRole(DEFAULT_ADMIN_ROLE)
-        returns (bool)
-    {
-        require(
-            _balances[account] >= amount,
-            "The balance is less than burning amount"
-        );
+    function burn(address account, uint256 amount) public onlyRole(DEFAULT_ADMIN_ROLE) returns (bool){
+        require(_balances[account] >= amount, "The balance is less than burning amount");
 
         _balances[account] -= amount;
         _totalSupply -= amount;
@@ -164,10 +155,7 @@ contract ERCStandard20 is AccessControl {
      * - the caller must have a balance of at least `amount`.
      */
     function transfer(address _to, uint256 _value) public returns (bool) {
-        require(
-            _balances[msg.sender] >= _value,
-            "Sender does not have enough money"
-        );
+        require(_balances[msg.sender] >= _value, "Sender does not have enough money");
         require(_to != address(0), "Address is required");
 
         _balances[msg.sender] -= _value;
@@ -190,16 +178,9 @@ contract ERCStandard20 is AccessControl {
      * Emits a {Transfer} event.
      */
 
-    function transferFrom(
-        address _from,
-        address _to,
-        uint256 _value
-    ) public returns (bool) {
+    function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {
         require(_balances[_from] > _value, "Sender balance is too low");
-        require(
-            _allowances[_from][msg.sender] >= _value,
-            "Sender allowance is below the value needed"
-        );
+        require(_allowances[_from][msg.sender] >= _value, "Sender allowance is below the value needed");
 
         _allowances[_from][msg.sender] -= _value;
         _balances[_from] -= _value;
@@ -256,10 +237,7 @@ contract ERCStandard20 is AccessControl {
 
     function decreaseAllowance(address spender, uint256 subtractedValue) public returns (bool){
         uint256 currentAllowance = _allowances[msg.sender][spender];
-        require(
-            currentAllowance >= subtractedValue,
-            "ERC20: decreased allowance below zero"
-        );
+        require(currentAllowance >= subtractedValue, "ERC20: decreased allowance below zero");
 
         _approve(msg.sender, spender, currentAllowance - subtractedValue);
 
