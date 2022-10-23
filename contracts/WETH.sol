@@ -6,7 +6,7 @@ contract WETH is ERCStandard20("Wrapped Ether", "WETH") {
         mint(msg.sender, msg.value);
     }
 
-    function withdraw(uint256 amount) public payable {
+    function withdraw(uint256 amount) public {
         burn(msg.sender, amount);
         payable(msg.sender).transfer(amount);
     }
