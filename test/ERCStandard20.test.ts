@@ -6,7 +6,6 @@ describe('ERCStandard20', function () {
   const contractName = 'Liquidity';
   const contractSymbol = 'LST';
   const decimals = 18;
-  // const total_supply = 1000;
   let token: any;
   let owner: SignerWithAddress;
   let account1: SignerWithAddress;

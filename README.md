@@ -6,7 +6,6 @@
 ## deploying ERC20 contract
 npx hardhat run scripts/deploy_erc20.ts --network goerli
 npx hardhat --network goerli verify [contract address] Liquidity LST 
-npx hardhat --network goerli verify 0xb6a18F555633b224a991502ED97c9fccED1C9924 Liquidity LST
 ```
 
 ### ERC20 address
