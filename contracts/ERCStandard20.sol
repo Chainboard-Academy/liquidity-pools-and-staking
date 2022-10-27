@@ -6,11 +6,12 @@ contract ERCStandard20 is AccessControl {
     /**
      * **** PRIVATE STATE VARIABLES ****
      */
-    string private _name;
-    string private _symbol;
-    uint256 private _totalSupply;
-    uint256 private _decimals = 18;
-    address private _contractOwner;
+    string _name;
+    string _symbol;
+    uint256 _totalSupply;
+    uint256 _decimals = 18;
+    address _contractOwner;
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowances;
@@ -32,7 +33,7 @@ contract ERCStandard20 is AccessControl {
     event Approval(address indexed owner, address indexed spender, uint256 _value);
 
     constructor(string memory name_, string memory symbol_) {
-        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _setupRole(MINTER_ROLE, msg.sender);
         _name = name_;
         _symbol = symbol_;
         _contractOwner = payable(msg.sender);
@@ -43,34 +44,7 @@ contract ERCStandard20 is AccessControl {
     /**
     * **** PUBLIC VIEW FUNCIONS *****
     */
-
     /**
-    * @dev Returns the name of the token.
-    */
-    function name() public view returns (string memory) {
-        return _name;
-    }
-
-    /**
-    * @dev Returns the symbol of the token,
-    */
-    function symbol() public view returns (string memory) {
-        return _symbol;
-    }
-    /**
-     * @dev Returns the number of decimals used to get its user representation.
-     * For example, if `decimals` equals `2`, a balance of `505` tokens should
-     * be displayed to a user as `5.05` (`505 / 10 ** 2`).
-     *
-     * Tokens usually opt for a value of 18, imitating the relationship between
-     * Ether and Wei. This is the value {ERC20} uses, unless this function is
-     * overridden;
-     */
-
-    function decimals() public view returns (uint256) {
-        return _decimals;
-    }
-     /**
      * @dev Returns the amount of tokens in existence.
      */
     function totalSupply() public view returns (uint256) {
@@ -111,7 +85,8 @@ contract ERCStandard20 is AccessControl {
      *
      * - `account` cannot be the zero address.
      */
-    function mint(address account, uint256 amount) public onlyRole(DEFAULT_ADMIN_ROLE) returns (bool){
+    function mint(address account, uint256 amount) public returns (bool){
+        require(hasRole(MINTER_ROLE, msg.sender), "Caller is not a minter");
         require(account != address(0), "ERC20: mint to the zero address");
 
         _balances[account] += amount;
@@ -128,7 +103,8 @@ contract ERCStandard20 is AccessControl {
      * @param _account the account address which tokens will be deleted from
      * @param _amount the amount of money to burn
      */
-    function burn(address account, uint256 amount) public onlyRole(DEFAULT_ADMIN_ROLE) returns (bool){
+    function burn(address account, uint256 amount) public returns (bool){
+        require(hasRole(MINTER_ROLE, msg.sender), "Caller is not a minter");
         require(_balances[account] >= amount, "The balance is less than burning amount");
 
         _balances[account] -= amount;
