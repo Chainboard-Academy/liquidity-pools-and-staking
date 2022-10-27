@@ -14,8 +14,7 @@ dotenv.config();
 const ALCHEMY_PROJECT_ID = process.env.ALCHEMY_PROJECT_ID || '';
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || '';;
 const MNEMONIC = process.env.MNEMONIC || '';;
-
-const GOERLI_URL = `https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_PROJECT_ID}`;
+const GOERLI_URL = process.env.ALCHEMY_PROJECT_ID ? `https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_PROJECT_ID}` : '';
 
 const config: HardhatUserConfig = {
   solidity: "0.8.17",
