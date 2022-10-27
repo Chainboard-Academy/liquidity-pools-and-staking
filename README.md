@@ -5,14 +5,18 @@
 ```shell
 ## deploying ERC20 contract
 npx hardhat run scripts/deploy_erc20.ts --network goerli
-npx hardhat --network goerli verify [contract address] Liquidity LST 
+npx hardhat --network goerli verify [contract address] Liquidity LST [minter address]
+```
+
+```shell
+ERC20 deployed to: 0x5829D942cE9c54611649f0e9B49137066Dee8E27 , and with a minter: 0x80dD5aD6B8775c4E31C999cA278Ef4D035717872
 ```
 
 ### ERC20 address
 
-#### 0xb6a18F555633b224a991502ED97c9fccED1C9924
+#### 0x786BE71C97EF5Bd71d95f19dc66F55d2791b1e19
 
-[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0xb6a18F555633b224a991502ED97c9fccED1C9924#code)
+[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0x5829D942cE9c54611649f0e9B49137066Dee8E27)
 
 
 tasks:
@@ -20,6 +24,7 @@ tasks:
 ```shell
 npx hardhat supply --network goerli
 npx hardhat balance --account [address] --network goerli
+npx hardhat mint --account 0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6 --amount 20 --network goerli
 npx hardhat mint --account [address] --network goerli
 npx hardhat transfer --to [address] --amount [value] --network goerli
 npx hardhat transferFrom --from [address] --to [address] --amount [value] --network goerli

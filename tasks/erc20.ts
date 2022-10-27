@@ -15,6 +15,7 @@ task("mint", "Transfers tokens to an account")
         const contract = await hre.ethers.getContractAt("ERCStandard20", ERCStandard20_CONTRACT_ADDRESS);
         const amount = hre.ethers.utils.parseUnits(taskArgs.amount, await contract.decimals());
         const signer = await hre.ethers.getSigners();
+        // console.log(signer[0].address, account, 'signer')
         console.log("Minting amount ", amount, "for an address: ", account, contract);
         let tx = await contract.connect(signer[0]).mint(account, amount);
         console.log('Minting transaction was successful: ', tx.hash);

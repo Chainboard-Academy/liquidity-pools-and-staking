@@ -32,8 +32,8 @@ contract ERCStandard20 is AccessControl {
      */
     event Approval(address indexed owner, address indexed spender, uint256 _value);
 
-    constructor(string memory name_, string memory symbol_) {
-        _setupRole(MINTER_ROLE, msg.sender);
+    constructor(string memory name_, string memory symbol_, address _minter) {
+         _setupRole(MINTER_ROLE, _minter);
         _name = name_;
         _symbol = symbol_;
         _contractOwner = payable(msg.sender);
@@ -56,6 +56,20 @@ contract ERCStandard20 is AccessControl {
      */
     function balanceOf(address account) public view returns (uint256) {
         return _balances[account];
+    }
+
+    /**
+     * @dev Returns the number of decimals used to get its user representation.
+     * For example, if `decimals` equals `2`, a balance of `505` tokens should
+     * be displayed to a user as `5.05` (`505 / 10 ** 2`).
+     *
+     * Tokens usually opt for a value of 18, imitating the relationship between
+     * Ether and Wei. This is the value {ERC20} uses, unless this function is
+     * overridden;
+     */
+
+    function decimals() public view returns (uint256) {
+        return _decimals;
     }
 
     /**
