@@ -16,8 +16,8 @@ contract StakingRewards is AccessControl {
 
     constructor(address _stakingToken, address _rewardsToken) {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        stakingToken=IERC20(_stakingToken); //ERC20
-        rewardsToken=ERC20(_rewardsToken);//LP
+        stakingToken=IERC20(_stakingToken);//ERC20
+        rewardsToken=ERC20(_rewardsToken);//LP -- pool was created between ERC20 and weth
         rewardsRate = 1;
         minStakingTime = dayInSec;
     }
