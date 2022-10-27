@@ -2,7 +2,7 @@ import { ethers } from "hardhat";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const MINTER: string = process.env.MINTER_ERC20 || '';
+const MINTER: string = process.env.MINTER_ERC20_ADDRESS || '';
 
 async function main() {
     console.log("Deploying ERC20 contract");

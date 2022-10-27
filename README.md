@@ -24,7 +24,6 @@ tasks:
 ```shell
 npx hardhat supply --network goerli
 npx hardhat balance --account [address] --network goerli
-npx hardhat mint --account 0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6 --amount 20 --network goerli
 npx hardhat mint --account [address] --network goerli
 npx hardhat transfer --to [address] --amount [value] --network goerli
 npx hardhat transferFrom --from [address] --to [address] --amount [value] --network goerli
@@ -51,14 +50,14 @@ npx hardhat increaseAllowance --account [ACCOUNT] --amount [value]--network goer
 ```shell
 ## deploying WETH contract
 npx hardhat run scripts/deploy_weth.ts --network goerli
-npx hardhat --network goerli verify [contract address]
+npx hardhat --network goerli verify 0x13538a52B7a610359a7F548195c06903f258c263
 ```
 
 ### WETH address
 
-#### 0xda51202fC5dabaF9EABcb37Ed77c97C290BC3D73
+#### 0x13538a52B7a610359a7F548195c06903f258c263
 
-[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0xda51202fC5dabaF9EABcb37Ed77c97C290BC3D73#code)
+[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0x13538a52B7a610359a7F548195c06903f258c263#code)
 
 tasks:
 
