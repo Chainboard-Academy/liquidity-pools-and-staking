@@ -1190,6 +1190,11 @@
   "resolved" "https://registry.npmjs.org/array-union/-/array-union-2.1.0.tgz"
   "version" "2.1.0"
 
+"array-uniq@1.0.3":
+  "integrity" "sha512-MNha4BWQ6JbwhFhj03YK552f7cb3AzoE8SzeljgChvL1dl3IcvggXVz1DilzySZkCja+CXuZbdW7yATchWn8/Q=="
+  "resolved" "https://registry.npmjs.org/array-uniq/-/array-uniq-1.0.3.tgz"
+  "version" "1.0.3"
+
 "array.prototype.reduce@^1.0.4":
   "integrity" "sha512-WnM+AjG/DvLRLo4DDl+r+SvCzYtD2Jd9oeBYMcEaI7t3fFrHY9M53/wdLcTvmZNQ70IU6Htj0emFkZ5TS+lrdw=="
   "resolved" "https://registry.npmjs.org/array.prototype.reduce/-/array.prototype.reduce-1.0.4.tgz"
@@ -2406,7 +2411,7 @@
     "idna-uts46-hx" "^2.3.1"
     "js-sha3" "^0.5.7"
 
-"eth-gas-reporter@^0.2.20":
+"eth-gas-reporter@^0.2.25":
   "integrity" "sha512-1fRgyE4xUB8SoqLgN3eDfpDfwEfRxh2Sz1b7wzFbyQA+9TekMmvSjjoRu9SKcSVyK+vLkLIsVbJDsTWjw195OQ=="
   "resolved" "https://registry.npmjs.org/eth-gas-reporter/-/eth-gas-reporter-0.2.25.tgz"
   "version" "0.2.25"
@@ -3174,11 +3179,12 @@
     "har-schema" "^2.0.0"
 
 "hardhat-gas-reporter@^1.0.2", "hardhat-gas-reporter@^1.0.8":
-  "integrity" "sha512-OaEAHsujMRyp1IsRAEaSf6Qh+jQTy9dnJggxAi4tWkZX0dCCV0F2AaVMOt6uu4GintIwH0Ppz/+DmInNnWdgwg=="
-  "resolved" "https://registry.npmjs.org/hardhat-gas-reporter/-/hardhat-gas-reporter-1.0.2.tgz"
-  "version" "1.0.2"
+  "integrity" "sha512-INN26G3EW43adGKBNzYWOlI3+rlLnasXTwW79YNnUhXPDa+yHESgt639dJEs37gCjhkbNKcRRJnomXEuMFBXJg=="
+  "resolved" "https://registry.npmjs.org/hardhat-gas-reporter/-/hardhat-gas-reporter-1.0.9.tgz"
+  "version" "1.0.9"
   dependencies:
-    "eth-gas-reporter" "^0.2.20"
+    "array-uniq" "1.0.3"
+    "eth-gas-reporter" "^0.2.25"
     "sha1" "^1.1.1"
 
 "hardhat@^2.0.0", "hardhat@^2.0.2", "hardhat@^2.0.4", "hardhat@^2.12.0", "hardhat@^2.9.4", "hardhat@^2.9.5", "hardhat@^2.9.9":

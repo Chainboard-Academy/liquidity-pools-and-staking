@@ -16,8 +16,8 @@ contract StakingRewards is AccessControl {
 
     constructor(address _stakingToken, address _rewardsToken) {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        stakingToken=IERC20(_stakingToken);//ERC20
-        rewardsToken=ERC20(_rewardsToken);//LP -- pool was created between ERC20 and weth
+        stakingToken=IERC20(_stakingToken);//ERC20 - => LP
+        rewardsToken=ERC20(_rewardsToken);//LP -- >ERC20
         rewardsRate = 1;
         minStakingTime = dayInSec;
     }
@@ -63,6 +63,7 @@ contract StakingRewards is AccessControl {
 
     //transfers LP tokes from the user to the contract.
     function stake(uint256 stakedAmount) external returns (bool) {
+        claim();
         stakeholders[msg.sender].amount += stakedAmount;
         stakeholders[msg.sender].stakingTime += block.timestamp;
         stakingToken.transferFrom(msg.sender, address(this), stakedAmount); //transfer amount from ERC20 contract to this WETH contract
@@ -92,7 +93,7 @@ contract StakingRewards is AccessControl {
     function _calculateRewards(address stakeholder) internal returns(uint) {
         uint256 stakedTime =stakeholders[stakeholder].stakingTime;
         uint256 units = block.timestamp - stakedTime;
-        uint256 updatedRewards = stakeholders[stakeholder].amount * rewardsRate * (units /100000);
+        uint256 updatedRewards = (stakeholders[stakeholder].amount * rewardsRate * units) /100000;
         stakeholders[stakeholder].rewards += updatedRewards;
         return stakeholders[stakeholder].rewards;
     }
