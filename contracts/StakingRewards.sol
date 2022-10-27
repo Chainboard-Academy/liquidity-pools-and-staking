@@ -14,10 +14,10 @@ contract StakingRewards is AccessControl {
     IERC20 public immutable stakingToken;
     ERC20 public immutable rewardsToken;
 
-    constructor(address _stakingToken, address _rewardsToken) {
+    constructor(address lp_token, address erc20_token) {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        stakingToken=IERC20(_stakingToken);//ERC20 - => LP
-        rewardsToken=ERC20(_rewardsToken);//LP -- >ERC20
+        stakingToken=IERC20(lp_token);
+        rewardsToken=ERC20(erc20_token);
         rewardsRate = 1;
         minStakingTime = dayInSec;
     }
@@ -65,7 +65,7 @@ contract StakingRewards is AccessControl {
     function stake(uint256 stakedAmount) external returns (bool) {
         claim();
         stakeholders[msg.sender].amount += stakedAmount;
-        stakeholders[msg.sender].stakingTime += block.timestamp;
+        stakeholders[msg.sender].stakingTime = block.timestamp;
         stakingToken.transferFrom(msg.sender, address(this), stakedAmount); //transfer amount from ERC20 contract to this WETH contract
         emit Stake(msg.sender, stakedAmount);
         return true;

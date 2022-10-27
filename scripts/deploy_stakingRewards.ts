@@ -4,7 +4,7 @@ const LP_CONTRACT_ADDRESS: string = process.env.LP_CONTRACT_ADDRESS || '';//Liqu
 async function main() {
     console.log("Deploying StakingRewards contract");
     const StakingRewards = await ethers.getContractFactory("StakingRewards");
-    const staking_rewards_token = await StakingRewards.deploy(ERC20_CONTRACT_ADDRESS, LP_CONTRACT_ADDRESS); //(address _stakingToken, address _rewardsToken)
+    const staking_rewards_token = await StakingRewards.deploy(LP_CONTRACT_ADDRESS, ERC20_CONTRACT_ADDRESS);
     await staking_rewards_token.deployed();
     console.log("StakingRewards contract deployed to:", staking_rewards_token.address);
 }

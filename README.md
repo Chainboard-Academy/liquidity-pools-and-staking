@@ -18,7 +18,6 @@ ERC20 deployed to: 0x5829D942cE9c54611649f0e9B49137066Dee8E27 , and with a minte
 
 [contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0x5829D942cE9c54611649f0e9B49137066Dee8E27)
 
-
 tasks:
 
 ```shell
@@ -44,14 +43,6 @@ npx hardhat increaseAllowance --account [ACCOUNT] --amount [value]--network goer
 [contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0xCd9E33b6681Ba4b6475396240a5029Fa03e39C89)
 
 ==============================
-
-## WETH contract
-
-```shell
-## deploying WETH contract
-npx hardhat run scripts/deploy_weth.ts --network goerli
-npx hardhat --network goerli verify 0x13538a52B7a610359a7F548195c06903f258c263
-```
 
 ### WETH address
 
