@@ -8,8 +8,7 @@ async function main() {
     console.log("Deploying ERC20 contract");
     const ERC20 = await ethers.getContractFactory("ERCStandard20");
     const contract = await ERC20.deploy("Liquidity", 'LST', MINTER);
-
-    // await contract.deployed();
+    await contract.deployed();
     console.log("ERC20 deployed to:", contract.address, ", and with a minter: ", MINTER);
 }
 
