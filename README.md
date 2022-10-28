@@ -31,16 +31,16 @@ npx hardhat decreaseAllowance --account [ACCOUNT] --amount [value]--network goer
 npx hardhat increaseAllowance --account [ACCOUNT] --amount [value]--network goerli
 
 ```
-
+<!-- 
 ==============================
 
 ## Liquidity contract
 
 ### Liquidity contract address
 
-0xCd9E33b6681Ba4b6475396240a5029Fa03e39C89s
+0xCd9E33b6681Ba4b6475396240a5029Fa03e39C89
 
-[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0xCd9E33b6681Ba4b6475396240a5029Fa03e39C89)
+[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0xCd9E33b6681Ba4b6475396240a5029Fa03e39C89) -->
 
 ==============================
 
