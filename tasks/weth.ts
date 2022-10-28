@@ -19,7 +19,6 @@ task("deposit", "Deposit tokens to ERC20")
     });
 task("withdraw", "withdraw tokens from ERC20")
     .addParam("amount", "The amount to transfer")
-
     .setAction(async (taskArgs, hre) => {
         const contract = await hre.ethers.getContractAt("WETH", WETH_CONTRACT_ADDRESS);
         const amount = hre.ethers.utils.parseUnits(taskArgs.amount, await contract.decimals());

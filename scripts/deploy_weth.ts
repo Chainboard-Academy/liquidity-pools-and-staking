@@ -10,7 +10,6 @@ async function main() {
   console.log("WETH Token address:", weth_contract.address);
 }
 
-
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
