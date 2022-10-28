@@ -7,7 +7,7 @@
 npx hardhat run scripts/deploy_erc20.ts --network goerli
 npx hardhat --network goerli verify [contract address] Liquidity LST [minter address]
 ```
-
+npx hardhat --network goerli verify 0x3234242c3ce6F5B817C198eB7f7984aB0f24e084 Liquidity LST 0x80dD5aD6B8775c4E31C999cA278Ef4D035717872
 ```shell
 ERC20 deployed to: 0x5829D942cE9c54611649f0e9B49137066Dee8E27 , and with a minter: 0x80dD5aD6B8775c4E31C999cA278Ef4D035717872
 ```
