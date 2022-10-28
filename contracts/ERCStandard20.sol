@@ -37,7 +37,7 @@ contract ERCStandard20 is AccessControl {
         _name = name_;
         _symbol = symbol_;
         _contractOwner = payable(msg.sender);
-        _totalSupply = 1000;
+        _totalSupply = 100;
         _balances[_contractOwner] = _totalSupply;
     }
 
