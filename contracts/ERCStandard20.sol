@@ -3,7 +3,6 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 contract ERCStandard20 is AccessControl {
-  
     string _name;
     string _symbol;
     uint256 _totalSupply;
