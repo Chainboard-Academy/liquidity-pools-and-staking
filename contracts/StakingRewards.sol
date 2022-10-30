@@ -10,7 +10,6 @@ contract StakingRewards is AccessControl {
     uint256 public minStakingDays = 2;
     uint256 public rewardsRate;
     uint256 public minStakingTime;
-    uint256 public al;
     IERC20 public immutable stakingToken;
     ERC20 public immutable rewardsToken;
 
@@ -57,7 +56,8 @@ contract StakingRewards is AccessControl {
         return rewardsRate;
     }
 
-    function setRewardRate(uint256 newRate) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function setRewardRate(uint256 newRate) external {
+        require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "Only admmin can change rewards rate");
         rewardsRate = newRate;
     }
 
