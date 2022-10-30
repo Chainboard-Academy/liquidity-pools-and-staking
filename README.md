@@ -10,7 +10,7 @@ npx hardhat --network goerli verify [contract address] Liquidity LST
 
 ### ERC20 address
 
-#### 0x786BE71C97EF5Bd71d95f0x7F3a70b498BdAee54E0FDdd4B883AA3638D5716D19dc66F55d2791b1e19
+#### 0x7F3a70b498BdAee54E0FDdd4B883AA3638D5716D
 
 [contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0x7F3a70b498BdAee54E0FDdd4B883AA3638D5716D)
 
@@ -28,23 +28,12 @@ npx hardhat increaseAllowance --account [ACCOUNT] --amount [value]--network goer
 
 ```
 
-==============================
-
-## Liquidity contract
-
-### Liquidity contract address
-
-0xCd9E33b6681Ba4b6475396240a5029Fa03e39C89
-
-[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0xCd9E33b6681Ba4b6475396240a5029Fa03e39C89)
-
-==============================
 
 ### WETH address
 
 #### 0x13538a52B7a610359a7F548195c06903f258c263
 
-[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0x13538a52B7a610359a7F548195c06903f258c263#code)
+[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0x13538a52B7a610359a7F548195c06903f258c263)
 
 tasks:
 
