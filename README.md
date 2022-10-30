@@ -43,15 +43,15 @@ npx hardhat withdraw --amount [value] --network goerli
 ```
 
 ## Staking Rewards Token
-
+(LP_CONTRACT_ADDRESS, ERC20_CONTRACT_ADDRESS);
 ```shell
 ## deploying ERC20 contract
 npx hardhat run scripts/deploy_stakingRewards.ts --network goerli
-npx hardhat --network goerli verify [Token address] [ERC20_CONTRACT_ADDRESS] [LP_CONTRACT_ADDRESS]
+npx hardhat --network goerli verify [Token address] [LP_CONTRACT_ADDRESS] [ERC20_CONTRACT_ADDRESS]
 ```
-#### 0xFb0a0270b90076fcA1b70946064ba4043A3d1991
+#### 0xEFdf8b59C7c1bA11fC1ae38B6ddc3c4cfB2e8baE
 
-[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0xFb0a0270b90076fcA1b70946064ba4043A3d1991#code)
+[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0xEFdf8b59C7c1bA11fC1ae38B6ddc3c4cfB2e8baE#code)
 
 tasks:
 
