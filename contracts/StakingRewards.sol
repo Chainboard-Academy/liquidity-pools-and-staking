@@ -66,7 +66,7 @@ contract StakingRewards is AccessControl {
         claim();
         stakeholders[msg.sender].amount += stakedAmount;
         stakeholders[msg.sender].stakingTime = block.timestamp;
-        stakingToken.transferFrom(msg.sender, address(this), stakedAmount); //transfer money from user to lp contract
+        stakingToken.transferFrom(msg.sender, address(this), stakedAmount); //LP contract transfer tokens from user to LP contract
         emit Stake(msg.sender, stakedAmount);
         return true;
     }
@@ -74,7 +74,7 @@ contract StakingRewards is AccessControl {
     //withdraws tokens to the user from the contract
     function unstake(uint256 _amount) external checkMinStakingTime returns (bool) {
         require(stakeholders[msg.sender].amount >= _amount, "Not enoughs funds");
-        stakingToken.transfer(msg.sender, _amount);
+        stakingToken.transfer(msg.sender, _amount);//LP transfer token back to user
         stakeholders[msg.sender].amount-= _amount;
         emit Unstake(msg.sender, _amount);
         return true;
