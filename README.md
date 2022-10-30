@@ -25,7 +25,6 @@ npx hardhat transferFrom --from [address] --to [address] --amount [value] --netw
 npx hardhat allowance --account [ACCOUNT] --network goerli
 npx hardhat decreaseAllowance --account [ACCOUNT] --amount [value]--network goerli
 npx hardhat increaseAllowance --account [ACCOUNT] --amount [value]--network goerli
-
 ```
 
 
@@ -40,10 +39,11 @@ tasks:
 ```shell
 npx hardhat deposit --amount [value] --network goerli
 npx hardhat withdraw --amount [value] --network goerli
+npx hardhat withdraw --amount 1.1 --network goerli
 ```
 
 ## Staking Rewards Token
-(LP_CONTRACT_ADDRESS, ERC20_CONTRACT_ADDRESS);
+
 ```shell
 ## deploying ERC20 contract
 npx hardhat run scripts/deploy_stakingRewards.ts --network goerli
