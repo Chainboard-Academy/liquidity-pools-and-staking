@@ -35,13 +35,13 @@ describe('ERCStandard20', function () {
   })
   describe('Mint', () => {
     it('to the address successfully', async function () {
-      const balance = await token.balanceOf(account1.address);
+      const balance_account1 = await token.balanceOf(account1.address);
       const total_supply = await token.totalSupply();
       let tx = token.connect(owner).mint(account1.address, 100);
       await expect(tx).to.emit(token, "Transfer").withArgs(account1.address, zero_address, 100);
-      const new_balance = await token.balanceOf(account1.address);
+      const new_balance_account1 = await token.balanceOf(account1.address);
       const new_total_supply = await token.totalSupply();
-      expect(new_balance).to.equal(balance.add(100));
+      expect(new_balance_account1).to.equal(balance_account1.add(100));
       expect(new_total_supply).to.equal(total_supply.add(100));
     });
     it('revert transaction, due to zero address', async function () {
@@ -126,14 +126,14 @@ describe('ERCStandard20', function () {
       );
     });
     describe('is reverted', () => {
-      it('due to wrong address', async () => {
+      it('due to zero address', async () => {
         await expect(
           token.connect(owner).transfer(zero_address, 100)
         ).to.be.revertedWith("Address is required");
       });
       it("sender's funds insufficient", async () => {
         await expect(
-          token.connect(account1).transfer(account2.address, 1000)
+          token.connect(account1).transfer(account2.address, 10000)
         ).to.be.revertedWith("Sender does not have enough money");
       });
     });

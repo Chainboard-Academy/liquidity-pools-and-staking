@@ -17,12 +17,13 @@ contract ERCStandard20 is AccessControl {
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 _value);
 
-    constructor(string memory name_, string memory symbol_, address _minter) {
-         _setupRole(MINTER_ROLE, _minter);
+    constructor(string memory name_, string memory symbol_) {
+         _setupRole(MINTER_ROLE, msg.sender);
         _name = name_;
         _symbol = symbol_;
         _totalSupply = 1000;
-        _balances[msg.sender] = _totalSupply;
+        _contractOwner = msg.sender;
+        _balances[_contractOwner] = _totalSupply;
     }
 
 
@@ -38,6 +39,13 @@ contract ERCStandard20 is AccessControl {
         return _decimals;
     }
 
+    function name() public view returns (string memory) {
+        return _name;
+    }
+
+    function symbol() public view returns (string memory) {
+        return _symbol;
+    }
 
     function allowance(address _owner, address _spender) public view returns (uint256){
         return _allowances[_owner][_spender];
