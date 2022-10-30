@@ -10,6 +10,7 @@ contract StakingRewards is AccessControl {
     uint256 public minStakingDays = 2;
     uint256 public rewardsRate;
     uint256 public minStakingTime;
+    uint256 public totalStakeHolders;
     IERC20 public immutable stakingToken;
     ERC20 public immutable rewardsToken;
 
@@ -17,7 +18,7 @@ contract StakingRewards is AccessControl {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         stakingToken=IERC20(lp_token);
         rewardsToken=ERC20(erc20_token);
-        rewardsRate = 1;
+        rewardsRate = 1000;
         minStakingTime = dayInSec;
     }
 
@@ -31,6 +32,8 @@ contract StakingRewards is AccessControl {
 
     event Stake(address indexed stakeholder, uint256 amount);
     event Unstake(address indexed stakeholders, uint256 amount);
+    event Claim(address indexed stakeholders, uint256 amount);
+
 
      modifier updateRewards() {
         require(stakeholders[msg.sender].stakingTime + minStakingTime < block.timestamp, "Withdrawals not available yet");
@@ -49,12 +52,13 @@ contract StakingRewards is AccessControl {
     }
 
     function getAvailableRewards(address stakeHolder) external view returns (uint256) {
-        return stakeholders[stakeHolder].rewards;
+        return _calculateRewards(stakeHolder);
     }
 
     function getRewardRate() external view returns(uint256){
         return rewardsRate;
     }
+    
 
     function setRewardRate(uint256 newRate) external {
         require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "Only admmin can change rewards rate");
@@ -64,6 +68,9 @@ contract StakingRewards is AccessControl {
     //transfers LP tokes from the user to the contract.
     function stake(uint256 stakedAmount) external returns (bool) {
         claim();
+        if(stakeholders[msg.sender].rewards == 0) {
+            totalStakeHolders+=1;
+        }
         stakeholders[msg.sender].amount += stakedAmount;
         stakeholders[msg.sender].stakingTime = block.timestamp;
         stakingToken.transferFrom(msg.sender, address(this), stakedAmount); //LP contract transfer tokens from user to LP contract
@@ -73,7 +80,9 @@ contract StakingRewards is AccessControl {
 
     //withdraws tokens to the user from the contract
     function unstake(uint256 _amount) external checkMinStakingTime returns (bool) {
-        require(stakeholders[msg.sender].amount >= _amount, "Not enoughs funds");
+        claim();
+        totalStakeHolders-=1;
+        require(stakeholders[msg.sender].amount >= _amount, "Not enough funds");
         stakingToken.transfer(msg.sender, _amount);//LP transfer token back to user
         stakeholders[msg.sender].amount-= _amount;
         emit Unstake(msg.sender, _amount);
@@ -85,16 +94,18 @@ contract StakingRewards is AccessControl {
         uint256 rewards_available = stakeholders[msg.sender].rewards;
         rewardsToken.transfer(msg.sender, rewards_available);
         stakeholders[msg.sender].rewards = 0;
+        stakeholders[msg.sender].stakingTime = block.timestamp;
         rewardsToken.decreaseAllowance(msg.sender, rewards_available);
+        emit Claim(msg.sender, rewards_available);
         return true;
     }
 
     //----internal functions----
-    function _calculateRewards(address stakeholder) internal returns(uint) {
-        uint256 stakedTime =stakeholders[stakeholder].stakingTime;
-        uint256 units = block.timestamp - stakedTime;
-        uint256 updatedRewards = (stakeholders[stakeholder].amount * rewardsRate * units) /100000;
-        stakeholders[stakeholder].rewards += updatedRewards;
-        return stakeholders[stakeholder].rewards;
+    function _calculateRewards(address stakeholder) internal view returns(uint) {
+        uint256 stakedTime = stakeholders[stakeholder].stakingTime;
+        uint256 stakedDays = (block.timestamp - stakedTime) / (60 * 60 * 24);
+        uint256 units = totalStakeHolders / rewardsToken.totalSupply();
+        uint256 rewardsAvailable = stakeholders[stakeholder].amount * stakedDays * units * rewardsRate;
+        return rewardsAvailable;
     }
 }

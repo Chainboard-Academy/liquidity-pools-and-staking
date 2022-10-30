@@ -14,21 +14,19 @@ task("stake", "Deposit tokens to ERC20")
         const staking_token = await hre.ethers.getContractAt("StakingRewards", STAKING_CONTRACT_ADDRESS);
         const rewards_token = await hre.ethers.getContractAt("ERCStandard20", REWARD_TOKEN_ADDRESS);
         const account = await hre.ethers.getSigners();
-
         await rewards_token.connect(account[0]).approve(staking_token.address, taskArgs.amount);
         const tx = await staking_token.connect(account[0]).stake(taskArgs.amount);
         console.log(tx)
-    });
+});
 
 task("unstake", "withdraws tokens")
     .addParam("amount", "amount to unstake")
     .setAction(async (taskArgs: { amount: any }, hre) => {
         const staking_token = await hre.ethers.getContractAt("StakingRewards", STAKING_CONTRACT_ADDRESS);
         const account = await hre.ethers.getSigners();
-
         const tx = await staking_token.connect(account[0]).unstake(taskArgs.amount);
         console.log(tx)
-    });
+});
 
 task("claim", "withdraws all of the available rewards")
     .setAction(async (hre) => {
@@ -36,4 +34,4 @@ task("claim", "withdraws all of the available rewards")
         const account = await hre.ethers.getSigners();
         const tx = await staking_token.connect(account[0]).claim();
         console.log(tx)
-    });
+});
