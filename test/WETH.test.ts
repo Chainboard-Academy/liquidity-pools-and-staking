@@ -7,7 +7,6 @@ describe('WETH', function () {
     let token: any;
     let owner: SignerWithAddress;
     const zero_address = "0x0000000000000000000000000000000000000000";
-    const initial_supply = 1000;
     before(async function () {
         const WETH = await ethers.getContractFactory("WETH");
         [owner] = await ethers.getSigners();

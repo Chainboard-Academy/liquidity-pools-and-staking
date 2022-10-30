@@ -116,7 +116,7 @@ describe('ERCStandard20', function () {
       // Send Tx(100) owner -> account1
       expect(await token.transfer(account1.address, 100))
         .emit(token, "Transfer")
-        .withArgs(account1.address, zero_address, 100);
+        .withArgs(owner.address, account1.address, 100);
 
       expect(await token.balanceOf(owner.address)).to.equal(
         balanceOfOwner.sub(100)
