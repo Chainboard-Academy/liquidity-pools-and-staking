@@ -66,7 +66,7 @@ contract StakingRewards is AccessControl {
         claim();
         stakeholders[msg.sender].amount += stakedAmount;
         stakeholders[msg.sender].stakingTime = block.timestamp;
-        stakingToken.transferFrom(msg.sender, address(this), stakedAmount); //transfer moeny from user to lp contract
+        stakingToken.transferFrom(msg.sender, address(this), stakedAmount); //transfer money from user to lp contract
         emit Stake(msg.sender, stakedAmount);
         return true;
     }
