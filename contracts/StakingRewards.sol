@@ -32,7 +32,6 @@ contract StakingRewards {
      modifier updateRewards() {
         require(stakeholders[msg.sender].stakingTime + minStakingTime < block.timestamp, "Withdrawals not available yet");
         stakeholders[msg.sender].rewards = _calculateRewards(msg.sender);
-        // rewardsToken.increaseAllowance(msg.sender, stakeholders[msg.sender].rewards);
         _;
     }
 
@@ -63,7 +62,7 @@ contract StakingRewards {
             claim();
         }
         stakeholders[msg.sender].amount += stakedAmount;
-        stakeholders[msg.sender].stakingTime = block.number;
+        stakeholders[msg.sender].stakingTime = block.timestamp;
         stakingToken.transferFrom(msg.sender, address(this), stakedAmount); //LP contract transfer tokens from user to LP contract
 
         emit Stake(msg.sender, stakedAmount);
