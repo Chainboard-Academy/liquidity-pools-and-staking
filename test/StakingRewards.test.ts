@@ -89,4 +89,23 @@ describe("StakingRewards", function () {
             // await expect(tx).to.emit(staking_rewards_token, "Claim").withArgs(owner.address, rewardAvailable);
         });
     });
+
+    describe('Total supply', function () {
+        it('staking total supply', async function () {
+            const stakingTotalSupply = await staking_rewards_token.stakingTotalSupply();
+            console.log(stakingTotalSupply, 'stakingTotalSupply');
+            const rewardsTotalSupply = await staking_rewards_token.rewardsTotalSupply();
+            console.log(rewardsTotalSupply, 'rewardsTotalSupply')
+        });
+        it('reverts transaction due to not enough long staking time', async () => {
+            // const tx = staking_rewards_token.claim();
+            // const rewardAvailable = await staking_rewards_token.getAvailableRewards(owner.address);
+
+            // expect(tx).to.be.revertedWith('Withdrawals not available yet');
+            const rewardAvailable = await staking_rewards_token.getAvailableRewards(owner.address);
+            console.log(rewardAvailable, 'rewardAvailable')
+            // const tx = await staking_rewards_token.claim();
+            // await expect(tx).to.emit(staking_rewards_token, "Claim").withArgs(owner.address, rewardAvailable);
+        });
+    });
 });
