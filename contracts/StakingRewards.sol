@@ -10,7 +10,6 @@ contract StakingRewards is AccessControl {
     uint256 public minStakingDays = 2;
     uint256 public rewardsRate;
     uint256 public minStakingTime;
-    uint256 public totalStakeHolders;
     IERC20 public immutable stakingToken;
     ERC20 public immutable rewardsToken;
 
@@ -68,12 +67,10 @@ contract StakingRewards is AccessControl {
     //transfers LP tokes from the user to the contract.
     function stake(uint256 stakedAmount) external returns (bool) {
         claim();
-        if(stakeholders[msg.sender].rewards == 0) {
-            totalStakeHolders+=1;
-        }
         stakeholders[msg.sender].amount += stakedAmount;
         stakeholders[msg.sender].stakingTime = block.timestamp;
         stakingToken.transferFrom(msg.sender, address(this), stakedAmount); //LP contract transfer tokens from user to LP contract
+
         emit Stake(msg.sender, stakedAmount);
         return true;
     }
@@ -81,7 +78,6 @@ contract StakingRewards is AccessControl {
     //withdraws tokens to the user from the contract
     function unstake(uint256 _amount) external checkMinStakingTime returns (bool) {
         claim();
-        totalStakeHolders-=1;
         require(stakeholders[msg.sender].amount >= _amount, "Not enough funds");
         stakingToken.transfer(msg.sender, _amount);//LP transfer token back to user
         stakeholders[msg.sender].amount-= _amount;
@@ -103,8 +99,9 @@ contract StakingRewards is AccessControl {
     //----internal functions----
     function _calculateRewards(address stakeholder) internal view returns(uint) {
         uint256 stakedTime = stakeholders[stakeholder].stakingTime;
+        uint256 stakedAmount = stakeholders[stakeholder].amount;
         uint256 stakedDays = (block.timestamp - stakedTime) / (60 * 60 * 24);
-        uint256 units = totalStakeHolders / rewardsToken.totalSupply();
+        uint256 units = stakedAmount / rewardsToken.totalSupply();
         uint256 rewardsAvailable = stakeholders[stakeholder].amount * stakedDays * units * rewardsRate;
         return rewardsAvailable;
     }

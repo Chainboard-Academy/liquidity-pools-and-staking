@@ -21,7 +21,7 @@ describe("StakingRewards", function () {
         staking_rewards_token = await StakingRewards.deploy(lp_token.address, erc20_token.address);
         [owner, account1] = await ethers.getSigners();
 
-        await erc20_token.mint(account1.address, 1000);
+        await erc20_token.mint(owner.address, 1000);
         await lp_token.mint(staking_rewards_token.address, 1000);
     });
 
@@ -35,6 +35,7 @@ describe("StakingRewards", function () {
             await expect(tx).to.emit(staking_rewards_token, "Stake").withArgs(owner.address, staking_val);
 
             const staking_balance = await staking_rewards_token.getStakedAmount(owner.address);
+            await lp_token.approve(staking_rewards_token.address, staking_val);
             expect(staking_balance).to.be.equal(staking_val);
         });
         it('reverts transaction, due to not enough funds', async () => {
@@ -67,18 +68,22 @@ describe("StakingRewards", function () {
         })
     });
     describe('Claiming', function () {
-
         beforeEach(async function () {
             await lp_token.approve(staking_rewards_token.address, 100);
             await staking_rewards_token.stake(10);
-            await ethers.provider.send("evm_increaseTime", [minStakingTime + 10000]);
 
         });
         it('withdraws all rewards from the contract to the user', async function () {
+            await ethers.provider.send("evm_increaseTime", [minStakingTime + 10000]);
             const rewardAvailable = await staking_rewards_token.getAvailableRewards(owner.address);
             const tx = await staking_rewards_token.claim();
             await expect(tx).to.emit(staking_rewards_token, "Claim").withArgs(owner.address, rewardAvailable);
         });
+
+        it('reverts transaction due to not enough long staking time', () => {
+            const tx = staking_rewards_token.claim();
+           expect(tx).to.be.revertedWith('Withdrawals not available yet');
+        })
     });
      describe('Rewards Rate', function () {
         it('changes rate', async function () {
