@@ -13,8 +13,8 @@ task("stake", "Deposit tokens to ERC20")
     .setAction(async (taskArgs: { amount: any }, hre) => {
         const staking_rewards_token = await hre.ethers.getContractAt("StakingRewards", STAKING_CONTRACT_ADDRESS);
         const rewards_token = await hre.ethers.getContractAt("ERCStandard20", REWARD_TOKEN_ADDRESS);
-        const account = await hre.ethers.getSigners();
-        await rewards_token.approve(account[0].address, taskArgs.amount);
+        const account = await hre.ethers.getSigner('1');
+        await rewards_token.approve(account.address, taskArgs.amount);
         // // await staking_rewards_token.stake(taskArgs.amount);
         // const allowance = await rewards_token.allowance(account[0].address, staking_rewards_token.address);
         // // const tx = await staking_rewards_token.connect(account[0]).stake(taskArgs.amount);
@@ -26,15 +26,15 @@ task("unstake", "withdraws tokens")
     .addParam("amount", "amount to unstake")
     .setAction(async (taskArgs: { amount: any }, hre) => {
         const staking_token = await hre.ethers.getContractAt("StakingRewards", STAKING_CONTRACT_ADDRESS);
-        const account = await hre.ethers.getSigners();
-        const tx = await staking_token.connect(account[0]).unstake(taskArgs.amount);
+        const account = await hre.ethers.getSigner('1');
+        const tx = await staking_token.connect(account).unstake(taskArgs.amount);
         console.log(tx)
 });
 
 task("claim", "withdraws all of the available rewards")
     .setAction(async (hre) => {
         const staking_token = await hre.ethers.getContractAt("StakingRewards", STAKING_CONTRACT_ADDRESS);
-        const account = await hre.ethers.getSigners();
-        const tx = await staking_token.connect(account[0]).claim();
+        const account = await hre.ethers.getSigner('1');
+        const tx = await staking_token.connect(account).claim();
         console.log(tx)
 });
