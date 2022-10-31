@@ -44,39 +44,39 @@ describe("StakingRewards", function () {
             await expect(tx).to.be.revertedWith("Sender balance is too low");
         });
     });
-    // describe('Unstaking', function () {
-    //     const amount_unstated = 2;
+    describe('Unstaking', function () {
+        const amount_unstated = 2;
 
-    //     beforeEach(async function () {
-    //         await lp_token.approve(staking_rewards_token.address, amount_unstated);
-    //         await staking_rewards_token.stake(amount_unstated);
-    //     });
-    //     it('withdraws tokens from the contract to the user', async function () {
-    //         await ethers.provider.send("evm_increaseTime", [minStakingTime]);
-    //         const tx = staking_rewards_token.unstake(amount_unstated);
-    //         await expect(tx).to.emit(staking_rewards_token, "Unstake").withArgs(owner.address, amount_unstated);
-    //     });
-    //     it('reverts transaction due to not enough funds', async () => {
-    //         const staking_balance = await staking_rewards_token.getStakedAmount(owner.address);
-    //         await ethers.provider.send("evm_increaseTime", [minStakingTime]);
-    //         const tx = staking_rewards_token.unstake((staking_balance + 1));
-    //         await expect(tx).to.be.revertedWith("Not enough funds");
-    //     });
-    //     it('reverts transaction due to not enough long staking time', () => {
-    //         const tx = staking_rewards_token.unstake(1);
-    //         expect(tx).to.be.revertedWith('Withdrawals not available yet');
-    //     })
-    // });
+        beforeEach(async function () {
+            await lp_token.approve(staking_rewards_token.address, amount_unstated);
+            await staking_rewards_token.stake(amount_unstated);
+        });
+        it('withdraws tokens from the contract to the user', async function () {
+            await ethers.provider.send("evm_increaseTime", [minStakingTime]);
+            const tx = staking_rewards_token.unstake(amount_unstated);
+            await expect(tx).to.emit(staking_rewards_token, "Unstake").withArgs(owner.address, amount_unstated);
+        });
+        it('reverts transaction due to not enough funds', async () => {
+            const staking_balance = await staking_rewards_token.getStakedAmount(owner.address);
+            await ethers.provider.send("evm_increaseTime", [minStakingTime]);
+            const tx = staking_rewards_token.unstake((staking_balance + 1));
+            await expect(tx).to.be.revertedWith("Not enough funds");
+        });
+        it('reverts transaction due to not enough long staking time', () => {
+            const tx = staking_rewards_token.unstake(1);
+            expect(tx).to.be.revertedWith('Withdrawals not available yet');
+        })
+    });
     describe('Claiming', function () {
         beforeEach(async function () {
             await lp_token.approve(staking_rewards_token.address, 10);
             await staking_rewards_token.stake(10);
         });
         it('withdraws all rewards from the contract to the user', async function () {
-        //     await ethers.provider.send("evm_increaseTime", [minStakingTime]);
-        //     const rewardAvailable = await staking_rewards_token.getAvailableRewards(owner.address);
-        //     const tx = await staking_rewards_token.claim();
-        //     await expect(tx).to.emit(staking_rewards_token, "Claim").withArgs(owner.address, rewardAvailable);
+            await ethers.provider.send("evm_increaseTime", [minStakingTime]);
+            const rewardAvailable = await staking_rewards_token.getAvailableRewards(owner.address);
+            const tx = await staking_rewards_token.claim();
+            await expect(tx).to.emit(staking_rewards_token, "Claim").withArgs(owner.address, rewardAvailable);
         });
         it('reverts transaction due to not enough long staking time', async () => {
             // const tx = staking_rewards_token.claim();
@@ -97,15 +97,9 @@ describe("StakingRewards", function () {
             const rewardsTotalSupply = await staking_rewards_token.rewardsTotalSupply();
             console.log(rewardsTotalSupply, 'rewardsTotalSupply')
         });
-        it('reverts transaction due to not enough long staking time', async () => {
-            // const tx = staking_rewards_token.claim();
-            // const rewardAvailable = await staking_rewards_token.getAvailableRewards(owner.address);
-
-            // expect(tx).to.be.revertedWith('Withdrawals not available yet');
-            const rewardAvailable = await staking_rewards_token.getAvailableRewards(owner.address);
-            console.log(rewardAvailable, 'rewardAvailable')
-            // const tx = await staking_rewards_token.claim();
-            // await expect(tx).to.emit(staking_rewards_token, "Claim").withArgs(owner.address, rewardAvailable);
+        it('reverts transaction due to not enough long staking time', () => {
+            const tx = staking_rewards_token.claim();
+            expect(tx).to.be.revertedWith('Withdrawals not available yet');
         });
     });
 });
