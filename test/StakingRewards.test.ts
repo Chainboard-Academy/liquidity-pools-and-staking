@@ -77,7 +77,7 @@ describe("StakingRewards", function () {
         //     const rewardAvailable = await staking_rewards_token.getAvailableRewards(owner.address);
         //     const tx = await staking_rewards_token.claim();
         //     await expect(tx).to.emit(staking_rewards_token, "Claim").withArgs(owner.address, rewardAvailable);
-        // });
+        });
         it('reverts transaction due to not enough long staking time', async () => {
             // const tx = staking_rewards_token.claim();
             // const rewardAvailable = await staking_rewards_token.getAvailableRewards(owner.address);
