@@ -1,9 +1,26 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-
-
-describe("StakingRewards", function () {
+//        staking_rewards_token = await StakingRewards.deploy(lp_token.address, erc20_token.address);
+// 'claim()': [Function (anonymous)],
+// 'getAvailableRewards(address)': [Function (anonymous)],
+// 'getRewardRate()': [Function (anonymous)],
+// 'getRoleAdmin(bytes32)': [Function (anonymous)],
+// 'getStakedAmount(address)': [Function (anonymous)],
+// 'grantRole(bytes32,address)': [Function (anonymous)],
+// 'hasRole(bytes32,address)': [Function (anonymous)],
+// 'minStakingTime()': [Function (anonymous)],
+// 'renounceRole(bytes32,address)': [Function (anonymous)],
+// 'revokeRole(bytes32,address)': [Function (anonymous)],
+// 'rewardsRate()': [Function (anonymous)],
+// 'rewardsToken()': [Function (anonymous)],
+// 'setRewardRate(uint256)': [Function (anonymous)],
+// 'stake(uint256)': [Function (anonymous)],
+// 'stakeholders(address)': [Function (anonymous)],
+// 'stakingToken()': [Function (anonymous)],
+// 'supportsInterface(bytes4)': [Function (anonymous)],
+// 'unstake(uint256)': [Function (anonymous)],
+describe("StakingRewards Token", function () {
     let StakingRewards;
     let ERC20;
     let lp_token: any;
@@ -14,8 +31,8 @@ describe("StakingRewards", function () {
     const minStakingTime = 24 * 60 * 60 + 10;
     beforeEach(async function () {
         ERC20 = await ethers.getContractFactory("ERCStandard20");
-        erc20_token = await ERC20.deploy('erc20_token', 'LP'); //staking token
-        lp_token = await ERC20.deploy('RewardsToken', 'ERC20'); //rewards token
+        erc20_token = await ERC20.deploy('erc20_token', 'ERC20'); //ERC20 contract used for staking
+        lp_token = await ERC20.deploy('RewardsToken', 'RT'); //Liquidity Pool contract used for deployment rewards
 
         StakingRewards = await ethers.getContractFactory("StakingRewards");
         staking_rewards_token = await StakingRewards.deploy(lp_token.address, erc20_token.address);
@@ -23,20 +40,23 @@ describe("StakingRewards", function () {
 
         await erc20_token.mint(owner.address, 1000);
         await lp_token.mint(staking_rewards_token.address, 1000);
+     
     });
 
     describe('Staking', function () {
         it('complete transaction', async function () {
+            // console.log(lp_token, 'lp_token');
             const initial_staking_balance = await staking_rewards_token.getStakedAmount(owner.address);
             expect(initial_staking_balance).to.be.equal(0);
             const staking_val = 1;
+            //1. Approve staking_rewards_token to transfer tokens from use account to contract
             await lp_token.approve(staking_rewards_token.address, staking_val);
+            const allowance = await lp_token.allowance(owner.address, staking_rewards_token.address);
+            //2. Allowance was increased
+            expect(allowance).to.be.equal('1')
+            //staking_rewards_token can do tracnfer from owner to the contract address
             const tx = staking_rewards_token.stake(1);
             await expect(tx).to.emit(staking_rewards_token, "Stake").withArgs(owner.address, staking_val);
-
-            const staking_balance = await staking_rewards_token.getStakedAmount(owner.address);
-            await lp_token.approve(staking_rewards_token.address, staking_val);
-            expect(staking_balance).to.be.equal(staking_val);
         });
         it('reverts transaction, due to not enough funds', async () => {
             const balance = await erc20_token.balanceOf(account1.address);
@@ -69,9 +89,8 @@ describe("StakingRewards", function () {
     });
     describe('Claiming', function () {
         beforeEach(async function () {
-            await lp_token.approve(staking_rewards_token.address, 100);
+            await lp_token.approve(staking_rewards_token.address, 10);
             await staking_rewards_token.stake(10);
-
         });
         it('withdraws all rewards from the contract to the user', async function () {
             await ethers.provider.send("evm_increaseTime", [minStakingTime + 10000]);

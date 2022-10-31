@@ -4,19 +4,22 @@ import "@nomiclabs/hardhat-ethers";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const STAKING_CONTRACT_ADDRESS: string = process.env.ERC20_CONTRACT_ADDRESS || '';
-const REWARD_TOKEN_ADDRESS: string = process.env.LP_CONTRACT_ADDRESS || '';
+const STAKING_CONTRACT_ADDRESS: string = process.env.LP_CONTRACT_ADDRESS || '';
+const REWARD_TOKEN_ADDRESS: string = process.env.ERC20_CONTRACT_ADDRESS || '';
 
 
 task("stake", "Deposit tokens to ERC20")
     .addParam("amount", "amount to stake")
     .setAction(async (taskArgs: { amount: any }, hre) => {
-        const staking_token = await hre.ethers.getContractAt("StakingRewards", STAKING_CONTRACT_ADDRESS);
+        const staking_rewards_token = await hre.ethers.getContractAt("StakingRewards", STAKING_CONTRACT_ADDRESS);
         const rewards_token = await hre.ethers.getContractAt("ERCStandard20", REWARD_TOKEN_ADDRESS);
         const account = await hre.ethers.getSigners();
-        await rewards_token.connect(account[0]).approve(staking_token.address, taskArgs.amount);
-        const tx = await staking_token.connect(account[0]).stake(taskArgs.amount);
-        console.log(tx)
+        await rewards_token.approve(account[0].address, taskArgs.amount);
+        // // await staking_rewards_token.stake(taskArgs.amount);
+        // const allowance = await rewards_token.allowance(account[0].address, staking_rewards_token.address);
+        // // const tx = await staking_rewards_token.connect(account[0]).stake(taskArgs.amount);
+        // console.log(allowance)
+        // const await
 });
 
 task("unstake", "withdraws tokens")
