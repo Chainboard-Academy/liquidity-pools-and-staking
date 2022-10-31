@@ -45,7 +45,6 @@ describe("StakingRewards Token", function () {
 
     describe('Staking', function () {
         it('complete transaction', async function () {
-            // console.log(lp_token, 'lp_token');
             const initial_staking_balance = await staking_rewards_token.getStakedAmount(owner.address);
             expect(initial_staking_balance).to.be.equal(0);
             const staking_val = 1;
@@ -54,7 +53,7 @@ describe("StakingRewards Token", function () {
             const allowance = await lp_token.allowance(owner.address, staking_rewards_token.address);
             //2. Allowance was increased
             expect(allowance).to.be.equal('1')
-            //staking_rewards_token can do tracnfer from owner to the contract address
+            //3. staking_rewards_token can do transfer from owner to the contract address
             const tx = staking_rewards_token.stake(1);
             await expect(tx).to.emit(staking_rewards_token, "Stake").withArgs(owner.address, staking_val);
         });
