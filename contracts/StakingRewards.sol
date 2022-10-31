@@ -7,7 +7,6 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 
 contract StakingRewards is AccessControl {
     uint256 dayInSec = 24 * 60 * 60;
-    uint256 public minStakingDays = 2;
     uint256 public rewardsRate;
     uint256 public minStakingTime;
     IERC20 public immutable stakingToken;
