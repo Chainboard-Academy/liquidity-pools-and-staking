@@ -17,7 +17,6 @@ describe('ERCStandard20', function () {
     [owner, account1, account2] = await ethers.getSigners();
     token = await ERC20.deploy(contractName, contractSymbol);
   });
-
   describe("Returns contract's", () => {
     it('correct name', async function () {
       expect(await token.name()).to.exist;

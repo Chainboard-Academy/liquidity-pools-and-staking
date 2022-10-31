@@ -3,22 +3,12 @@ pragma solidity ^0.8.17;
 
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract StakingRewards is AccessControl {
-    uint256 dayInSec = 24 * 60 * 60;
-    uint256 public rewardsRate;
+contract StakingRewards {
     uint256 public minStakingTime;
+
     IERC20 public immutable stakingToken;
     ERC20 public immutable rewardsToken;
-
-    constructor(address lp_token, address erc20_token) {
-        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        stakingToken=IERC20(lp_token);
-        rewardsToken=ERC20(erc20_token);
-        rewardsRate = 1000;
-        minStakingTime = dayInSec;
-    }
 
     struct Stakeholder {
         uint256 amount;
@@ -28,6 +18,12 @@ contract StakingRewards is AccessControl {
 
     mapping(address => Stakeholder) public stakeholders;
 
+    constructor(address lp_token, address erc20_token) {
+        stakingToken=IERC20(lp_token);
+        rewardsToken=ERC20(erc20_token);
+        minStakingTime = 24 * 60 * 60;
+    }
+
     event Stake(address indexed stakeholder, uint256 amount);
     event Unstake(address indexed stakeholders, uint256 amount);
     event Claim(address indexed stakeholders, uint256 amount);
@@ -36,7 +32,7 @@ contract StakingRewards is AccessControl {
      modifier updateRewards() {
         require(stakeholders[msg.sender].stakingTime + minStakingTime < block.timestamp, "Withdrawals not available yet");
         stakeholders[msg.sender].rewards = _calculateRewards(msg.sender);
-        rewardsToken.increaseAllowance(msg.sender, stakeholders[msg.sender].rewards);
+        // rewardsToken.increaseAllowance(msg.sender, stakeholders[msg.sender].rewards);
         _;
     }
 
@@ -53,21 +49,21 @@ contract StakingRewards is AccessControl {
         return _calculateRewards(stakeHolder);
     }
 
-    function getRewardRate() external view returns(uint256){
-        return rewardsRate;
+    function stakingTotalSupply() public view returns(uint256){
+        return stakingToken.totalSupply();
+    }
+
+    function rewardsTotalSupply() public view returns(uint256){
+        return rewardsToken.totalSupply();
     }
     
-
-    function setRewardRate(uint256 newRate) external {
-        require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "Only admmin can change rewards rate");
-        rewardsRate = newRate;
-    }
-
     //transfers LP tokes from the user to the contract.
     function stake(uint256 stakedAmount) external returns (bool) {
-        claim();
+        if(stakeholders[msg.sender].amount > 0) {
+            claim();
+        }
         stakeholders[msg.sender].amount += stakedAmount;
-        stakeholders[msg.sender].stakingTime = block.timestamp;
+        stakeholders[msg.sender].stakingTime = block.number;
         stakingToken.transferFrom(msg.sender, address(this), stakedAmount); //LP contract transfer tokens from user to LP contract
 
         emit Stake(msg.sender, stakedAmount);
@@ -75,11 +71,11 @@ contract StakingRewards is AccessControl {
     }
 
     //withdraws tokens to the user from the contract
-    function unstake(uint256 _amount) external checkMinStakingTime returns (bool) {
-        claim();
+    function unstake(uint256 _amount) external checkMinStakingTime returns (bool) { 
         require(stakeholders[msg.sender].amount >= _amount, "Not enough funds");
-        stakingToken.transfer(msg.sender, _amount);//LP transfer token back to user
+        stakingToken.transfer(msg.sender, _amount); //LP transfer token back to user
         stakeholders[msg.sender].amount-= _amount;
+        claim();
         emit Unstake(msg.sender, _amount);
         return true;
     }
@@ -87,21 +83,23 @@ contract StakingRewards is AccessControl {
     //withdraws all of the rewards available to the user from the contract
     function claim() updateRewards public returns(bool) {
         uint256 rewards_available = stakeholders[msg.sender].rewards;
+        // uint256 balance = rewardsToken.balanceOf(msg.sender);
+        // require(balance > rewards_available, "rewards available");
         rewardsToken.transfer(msg.sender, rewards_available);
         stakeholders[msg.sender].rewards = 0;
         stakeholders[msg.sender].stakingTime = block.timestamp;
-        rewardsToken.decreaseAllowance(msg.sender, rewards_available);
+        rewardsToken.transfer(msg.sender, rewards_available);
         emit Claim(msg.sender, rewards_available);
         return true;
     }
 
     //----internal functions----
-    function _calculateRewards(address stakeholder) internal view returns(uint) {
+    function _calculateRewards(address stakeholder) internal view returns(uint256) {
+        uint256 totalSupply = stakingTotalSupply();
         uint256 stakedTime = stakeholders[stakeholder].stakingTime;
-        uint256 stakedAmount = stakeholders[stakeholder].amount;
-        uint256 stakedDays = (block.timestamp - stakedTime) / (60 * 60 * 24);
-        uint256 units = stakedAmount / rewardsToken.totalSupply();
-        uint256 rewardsAvailable = stakeholders[stakeholder].amount * stakedDays * units * rewardsRate;
+        uint256 daysInSec = 24 * 60 * 60;
+        uint256 amount = stakeholders[msg.sender].amount;
+        uint rewardsAvailable = ((amount + block.timestamp - stakedTime) / daysInSec) / totalSupply;
         return rewardsAvailable;
     }
 }
