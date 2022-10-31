@@ -59,6 +59,7 @@ tasks:
 ```shell
 npx hardhat stake --amount [value] --network goerli
 npx hardhat stake --amount 1 --network goerli
+npx hardhat stake --amount 1 --network goerli
 # npx hardhat withdraw --amount [value] --network goerli
 ```
 =============================
