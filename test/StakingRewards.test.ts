@@ -1,25 +1,6 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-//        staking_rewards_token = await StakingRewards.deploy(lp_token.address, erc20_token.address);
-// 'claim()': [Function (anonymous)],
-// 'getAvailableRewards(address)': [Function (anonymous)],
-// 'getRewardRate()': [Function (anonymous)],
-// 'getRoleAdmin(bytes32)': [Function (anonymous)],
-// 'getStakedAmount(address)': [Function (anonymous)],
-// 'grantRole(bytes32,address)': [Function (anonymous)],
-// 'hasRole(bytes32,address)': [Function (anonymous)],
-// 'minStakingTime()': [Function (anonymous)],
-// 'renounceRole(bytes32,address)': [Function (anonymous)],
-// 'revokeRole(bytes32,address)': [Function (anonymous)],
-// 'rewardsRate()': [Function (anonymous)],
-// 'rewardsToken()': [Function (anonymous)],
-// 'setRewardRate(uint256)': [Function (anonymous)],
-// 'stake(uint256)': [Function (anonymous)],
-// 'stakeholders(address)': [Function (anonymous)],
-// 'stakingToken()': [Function (anonymous)],
-// 'supportsInterface(bytes4)': [Function (anonymous)],
-// 'unstake(uint256)': [Function (anonymous)],
 describe("StakingRewards Token", function () {
     let StakingRewards;
     let ERC20;
