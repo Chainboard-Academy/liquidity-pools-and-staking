@@ -12,8 +12,8 @@ task("deposit", "Deposit tokens")
         const weth = await hre.ethers.getContractAt("WETH", WETH_CONTRACT_ADDRESS);
         const [account] = await hre.ethers.getSigners();
         const amount = hre.ethers.utils.parseUnits(taskArgs.amount, 18);
-        let tx_1 = await weth.connect(account).deposit({ value: amount });
-        console.log(`Paid deposit ${taskArgs.amount} ETH, tx: ${tx_1.hash}`);
+        let tx_1 = await weth.deposit({ value: amount });
+        console.log(`Paid deposit ${taskArgs.amount} ETH, tx: ${tx_1.hash}, by ${account.address}`);
 });
 
 task("withdraw", "withdraw tokens from ERC20")

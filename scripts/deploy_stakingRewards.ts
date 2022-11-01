@@ -1,6 +1,7 @@
 import { ethers } from "hardhat";
 const ERC20_CONTRACT_ADDRESS: string = process.env.ERC20_CONTRACT_ADDRESS || ''; //ERC20 contract used for staking
 const LP_CONTRACT_ADDRESS: string = process.env.LP_CONTRACT_ADDRESS || ''; //Liquidity Pool contract used for deployment rewards
+
 async function main() {
     console.log("Deploying StakingRewards contract");
     const StakingRewards = await ethers.getContractFactory("StakingRewards");

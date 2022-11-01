@@ -19,9 +19,6 @@ describe("StakingRewards", function () {
         StakingRewards = await ethers.getContractFactory("StakingRewards");
         staking_rewards_token = await StakingRewards.deploy(lp_token.address, erc20_token.address);
         [owner, account1] = await ethers.getSigners();
-
-        // await erc20_token.mint(owner.address, 1000);
-        // await lp_token.mint(staking_rewards_token.address, 1000);
      
     });
     describe('Staking', function () {
