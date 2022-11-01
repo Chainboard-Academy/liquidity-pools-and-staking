@@ -6,7 +6,6 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract StakingRewards {
     uint256 public minStakingTime;
-
     IERC20 public immutable stakingToken;
     ERC20 public immutable rewardsToken;
 
@@ -64,7 +63,6 @@ contract StakingRewards {
         stakeholders[msg.sender].amount += stakedAmount;
         stakeholders[msg.sender].stakingTime = block.timestamp;
         stakingToken.transferFrom(msg.sender, address(this), stakedAmount); //LP contract transfer tokens from user to LP contract
-
         emit Stake(msg.sender, stakedAmount);
         return true;
     }
@@ -82,8 +80,6 @@ contract StakingRewards {
     //withdraws all of the rewards available to the user from the contract
     function claim() updateRewards public returns(bool) {
         uint256 rewards_available = stakeholders[msg.sender].rewards;
-        // uint256 balance = rewardsToken.balanceOf(msg.sender);
-        // require(balance > rewards_available, "rewards available");
         rewardsToken.transfer(msg.sender, rewards_available);
         stakeholders[msg.sender].rewards = 0;
         stakeholders[msg.sender].stakingTime = block.timestamp;
