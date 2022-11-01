@@ -6,8 +6,8 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract StakingRewards {
     uint256 public minStakingTime;
-    IERC20 public immutable stakingToken;
-    ERC20 public immutable rewardsToken;
+    IERC20 public stakingToken;
+    ERC20 public rewardsToken;
 
     struct Stakeholder {
         uint256 amount;
@@ -27,8 +27,7 @@ contract StakingRewards {
     event Unstake(address indexed stakeholders, uint256 amount);
     event Claim(address indexed stakeholders, uint256 amount);
 
-
-     modifier updateRewards() {
+    modifier updateRewards() {
         require(stakeholders[msg.sender].stakingTime + minStakingTime < block.timestamp, "Withdrawals not available yet");
         stakeholders[msg.sender].rewards = _calculateRewards(msg.sender);
         _;
