@@ -38,7 +38,7 @@ tasks:
 ```shell
 npx hardhat deposit --amount [value] --network goerli
 npx hardhat withdraw --amount [value] --network goerli
-npx hardhat withdraw --amount 1.1 --network goerli
+npx hardhat deposit --amount 1.1 --network goerli
 ```
 
 ## Staking Rewards Token

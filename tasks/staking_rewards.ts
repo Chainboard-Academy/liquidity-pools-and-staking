@@ -13,7 +13,7 @@ task("stake", "Deposit tokens to ERC20")
     .setAction(async (taskArgs: { amount: any }, hre) => {
         const staking_rewards_token = await hre.ethers.getContractAt("StakingRewards", STAKING_CONTRACT_ADDRESS);
         const rewards_token = await hre.ethers.getContractAt("ERCStandard20", REWARD_TOKEN_ADDRESS);
-        const account = await hre.ethers.getSigner('1');
+        const [account] = await hre.ethers.getSigners();
         await rewards_token.approve(account.address, taskArgs.amount);
         // // await staking_rewards_token.stake(taskArgs.amount);
         // const allowance = await rewards_token.allowance(account[0].address, staking_rewards_token.address);
