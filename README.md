@@ -62,3 +62,8 @@ npx hardhat stake --amount 1 --network goerli
 # npx hardhat withdraw --amount [value] --network goerli
 ```
 =============================
+
+
+### liquidity token 0x602931753e321b44ba5d3bab776486b1342ef44c
+[contract at goerli.etherscan.io](https://goerli.etherscan.io/token/0x13538a52b7a610359a7f548195c06903f258c263?a=0x602931753e321b44ba5d3bab776486b1342ef44c)
+
