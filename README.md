@@ -10,9 +10,9 @@ npx hardhat --network goerli verify [contract address] Liquidity LST
 
 ### ERC20 address
 
-#### 0x7F3a70b498BdAee54E0FDdd4B883AA3638D5716D
+#### 0x5829D942cE9c54611649f0e9B49137066Dee8E27
 
-[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0x7F3a70b498BdAee54E0FDdd4B883AA3638D5716D)
+[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0x5829D942cE9c54611649f0e9B49137066Dee8E27#code)
 
 
 WITH address
