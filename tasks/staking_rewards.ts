@@ -14,12 +14,15 @@ task("stake", "Deposit tokens to ERC20")
         const staking_rewards_token = await hre.ethers.getContractAt("StakingRewards", STAKING_CONTRACT_ADDRESS);
         const rewards_token = await hre.ethers.getContractAt("ERCStandard20", REWARD_TOKEN_ADDRESS);
         const [account] = await hre.ethers.getSigners();
-        await rewards_token.approve(account.address, taskArgs.amount);
-        // // await staking_rewards_token.stake(taskArgs.amount);
-        // const allowance = await rewards_token.allowance(account[0].address, staking_rewards_token.address);
-        // // const tx = await staking_rewards_token.connect(account[0]).stake(taskArgs.amount);
-        // console.log(allowance)
-        // const await
+
+        //1. User is approving LP to transfer tokens from use account to the contract
+        await rewards_token.approve(staking_rewards_token.address, taskArgs.amount);
+        const allowance = await rewards_token.allowance(account.address, staking_rewards_token.address);
+       //1. Check allowance
+ 
+        console.log(`Allowance is ${allowance} `)
+        const tx = await staking_rewards_token.stake(1);
+        console.log(tx, "tsx")
 });
 
 task("unstake", "withdraws tokens")
