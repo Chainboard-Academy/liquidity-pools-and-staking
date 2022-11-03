@@ -54,6 +54,7 @@ total supply 2 WETH
 ```shell
 ##tasks
 npx hardhat deposit --amount [value] --network goerli
+npx hardhat deposit --amount 1 --network goerli
 npx hardhat withdraw --amount [value] --network goerli
 npx hardhat withdraw --amount 1 --network goerli
 ```
@@ -71,8 +72,12 @@ balance: 2 WETH, 8 ERC20
 
 ## Staking Rewards Token
 
+### 0xf0BC7B2c4DA3a04FD94FfA94F0360358417fa3A1
+
+[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0xf0BC7B2c4DA3a04FD94FfA94F0360358417fa3A1#code)
+
 ```shell
 
 ## deploying ERC20 contract
 npx hardhat run scripts/deploy_staking_rewards.ts --network goerli
-npx hardhat --network goerli verify [Token address] [LP_CONTRACT_ADDRESS] [ERC20_CONTRACT_ADDRESS]
+npx hardhat --network goerli verify [contract address] [LP_CONTRACT_ADDRESS] [ERC20_CONTRACT_ADDRESS]
