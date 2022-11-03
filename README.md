@@ -76,15 +76,3 @@ balance: 2 WETH, 8 ERC20
 ## deploying ERC20 contract
 npx hardhat run scripts/deploy_staking_rewards.ts --network goerli
 npx hardhat --network goerli verify [Token address] [LP_CONTRACT_ADDRESS] [ERC20_CONTRACT_ADDRESS]
-
-```
-#### 0xd8044a205865049d60BcefC65ECf95B8686F9d98
-
-[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0xd8044a205865049d60BcefC65ECf95B8686F9d98#code)
-
-tasks:
-
-```shell
-npx hardhat stake --amount [value] --network goerli
-
-```
