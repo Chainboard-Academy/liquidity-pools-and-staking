@@ -2,8 +2,8 @@ import { expect } from "chai";
 import { ethers } from "hardhat";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 describe("Staking", function () {
-    let Staking;
-    let ERC20;
+    let Staking: any;
+    let ERC20: any;
     let lp_token: any;
     let erc20_token: any;
     let staking_rewards_token: any;
