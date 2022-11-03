@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.17;
-import "./ERCStandard20.sol";
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract WETH is ERC20 {
+contract WrappedEth is ERC20 {
 
-    constructor() ERC20("Wrapped Ether", "WETH") {}
+    constructor() ERC20("Wrapped Etherium", "WETH") {}
 
     function deposit() public payable {
         _mint(msg.sender, msg.value);

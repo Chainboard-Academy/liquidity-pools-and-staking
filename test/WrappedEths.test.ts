@@ -3,12 +3,12 @@ import { ethers } from "hardhat";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { formatEther } from "ethers/lib/utils";
 
-describe('WETH', function () {
+describe('WrappedEth', function () {
     let token: any;
     let owner: SignerWithAddress;
     const zero_address = "0x0000000000000000000000000000000000000000";
     before(async function () {
-        const WETH = await ethers.getContractFactory("WETH");
+        const WETH = await ethers.getContractFactory("WrappedEth");
         [owner] = await ethers.getSigners();
         token = await WETH.deploy();
     });

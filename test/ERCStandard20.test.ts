@@ -140,20 +140,20 @@ describe('ERCStandard20', function () {
   describe("Transfer from", function () {
     describe('revert transaction', () => {
       it('due to not enough allowance', async () => {
-        let tx = token.connect(owner).transferFrom(account1.address, account2.address, 1);
+        let tx = token.transferFrom(account1.address, account2.address, 1);
         await expect(tx).to.be.revertedWith("Sender allowance is below the value needed");
       });
       it("due to too low sender's balance", async () => {
         const balanceOfAddress1 = await token.balanceOf(account1.address);
 
-        let tx = token.connect(owner).transferFrom(account1.address, account2.address, balanceOfAddress1 + 1);
+        let tx = token.transferFrom(account1.address, account2.address, balanceOfAddress1 + 1);
         await expect(tx).to.be.revertedWith("Sender balance is too low");
       });
     });
     it('account1 to account2 by the owner', async () => {
       const amount_to_send = 10;
-      await token.connect(account1).increaseAllowance(account1.address, amount_to_send);
-      let tx = token.connect(account1).transferFrom(account1.address, account2.address, amount_to_send);
+      await token.connect(account1).increaseAllowance(owner.address, amount_to_send);
+      let tx = token.connect(owner).transferFrom(account1.address, account2.address, amount_to_send);
       await expect(tx).to.emit(token, "Transfer").withArgs(account1.address, account2.address, amount_to_send);
     });
   });

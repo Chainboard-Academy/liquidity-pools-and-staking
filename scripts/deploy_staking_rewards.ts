@@ -5,6 +5,7 @@ const ERC20_CONTRACT_ADDRESS: string = process.env.ERC20_CONTRACT_ADDRESS || '';
 async function main() {
     console.log("Deploying StakingRewards contract");
     const StakingRewards = await ethers.getContractFactory("StakingRewards");
+    console.log(LP_CONTRACT_ADDRESS, ERC20_CONTRACT_ADDRESS, 'LP_CONTRACT_ADDRESS, ERC20_CONTRACT_ADDRESS')
     const staking_rewards_token = await StakingRewards.deploy(LP_CONTRACT_ADDRESS, ERC20_CONTRACT_ADDRESS);
     await staking_rewards_token.deployed();
     console.log("StakingRewards contract deployed to:", staking_rewards_token.address);
@@ -16,4 +17,3 @@ main()
         console.error(error);
         process.exit(1);
     });
-    

@@ -1,4 +1,3 @@
-
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomicfoundation/hardhat-chai-matchers";
@@ -7,7 +6,7 @@ import "@openzeppelin/hardhat-upgrades";
 import * as dotenv from "dotenv";
 import "./tasks/erc20";
 import "./tasks/weth";
-import "./tasks/staking_rewards"
+// import "./tasks/staking_rewards"
 
 dotenv.config();
 
@@ -22,7 +21,6 @@ const config: HardhatUserConfig = {
     goerli: {
       url: GOERLI_URL,
       allowUnlimitedContractSize: true,
-      blockGasLimit: 100000000429720,
       accounts: { mnemonic: MNEMONIC }
     },
   },

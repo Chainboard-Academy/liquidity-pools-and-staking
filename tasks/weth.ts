@@ -14,7 +14,7 @@ task("deposit", "Deposit tokens")
         const amount = hre.ethers.utils.parseUnits(taskArgs.amount, 18);
         let tx_1 = await weth.deposit({ value: amount });
         console.log(`Paid deposit ${taskArgs.amount} ETH, tx: ${tx_1.hash}, by ${account.address}`);
-});
+    });
 
 task("withdraw", "withdraw tokens from ERC20")
     .addParam("amount", "The amount to transfer")
@@ -23,4 +23,4 @@ task("withdraw", "withdraw tokens from ERC20")
         const amount = hre.ethers.utils.parseUnits(taskArgs.amount, await weth.decimals());
         let tx = await weth.withdraw(amount);
         console.log(`Withdraw ${taskArgs.amount} WETH, tx: ${tx.hash} `);
-});
+    });

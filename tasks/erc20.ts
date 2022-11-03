@@ -14,10 +14,21 @@ task("mint", "Transfers tokens to an account")
         const account = taskArgs.account;
         const contract = await hre.ethers.getContractAt("ERCStandard20", ERCStandard20_CONTRACT_ADDRESS);
         const amount = hre.ethers.utils.parseUnits(taskArgs.amount, await contract.decimals());
-        const signer = await hre.ethers.getSigners();
         console.log("Minting: ", amount, "ETH from an address: ", account);
-        let tx = await contract.connect(signer[0]).mint(account, amount);
+        let tx = await contract.mint(account, amount);
         console.log('Minting transaction was successful: ', tx.hash);
+    });
+
+task("burn", "Transfers tokens to an account")
+    .addParam("account", "The receiver's address")
+    .addParam("amount", "The amount to transfer")
+    .setAction(async (taskArgs, hre) => {
+        const account = taskArgs.account;
+        const contract = await hre.ethers.getContractAt("ERCStandard20", ERCStandard20_CONTRACT_ADDRESS);
+        const amount = hre.ethers.utils.parseUnits(taskArgs.amount, await contract.decimals());
+        console.log("Minting: ", amount, "ETH from an address: ", account);
+        let tx = await contract.burn(account, amount);
+        console.log('Burning transaction was successful: ', tx.hash);
     });
 
 task("supply", "Show total supply").setAction(async (_taskArgs, hre) => {
@@ -59,7 +70,7 @@ task("transferFrom", "Transfers the amount of tokens from the from address to th
         const to = taskArgs.to;
         console.log(signer[0].address);
 
-        const tx = await contract.connect(signer[0]).transferFrom(from, to, amount);
+        const tx = await contract.transferFrom(from, to, amount);
         console.log(`TransferFrom behalf of account:${tx.from} to ${tx.to} with ${tx.hash} was successful`);
 
     });
