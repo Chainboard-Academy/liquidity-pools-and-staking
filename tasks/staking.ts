@@ -4,28 +4,30 @@ import "@nomiclabs/hardhat-ethers";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const STAKING_CONTRACT_ADDRESS: string = process.env.LP_CONTRACT_ADDRESS || '';
+const STAKING_CONTRACT_ADDRESS: string = process.env.STAKING_CONTRACT_ADDRESS || '0xf0BC7B2c4DA3a04FD94FfA94F0360358417fa3A1';
 const REWARD_TOKEN_ADDRESS: string = process.env.ERC20_CONTRACT_ADDRESS || '';
 
 
 task("stake", "Deposit tokens to ERC20")
     .addParam("amount", "amount to stake")
     .setAction(async (taskArgs: { amount: any }, hre) => {
-        const staking_rewards_token = await hre.ethers.getContractAt("Staking", STAKING_CONTRACT_ADDRESS);
+        const staking_token = await hre.ethers.getContractAt("Staking", STAKING_CONTRACT_ADDRESS);
         const rewards_token = await hre.ethers.getContractAt("ERCStandard20", REWARD_TOKEN_ADDRESS);
         const [owner, acc1] = await hre.ethers.getSigners();
-        await rewards_token.connect(acc1.address).approve(staking_rewards_token, taskArgs.amount);
-
-        const tx = await staking_rewards_token.connect(acc1).stake(taskArgs.amount);
+        const t = await rewards_token.approve(staking_token.address, taskArgs.amount);
+        console.log(t, 't')
+        const tx = await staking_token.stake(taskArgs.amount);
 
         console.log(tx, 'tx0')
-        //  reason: 'execution reverted',
-        //code: 'UNPREDICTABLE_GAS_LIMIT',
-        //   method: 'estimateGas',
-        //   transaction: {
-        //     from: '0x0131bB54fB52A2eF0ba27411aF3e9AC87105b2e6',
-        //     to: '0x06ba7fce84CC8D6ce1Fac9E504bF0922226CBA53',
-        //     data: '0xa694fc3a0000000000000000000000000000000000000000000000000000000000000001',
+        // reason: 'execution reverted: ds-math-sub-underflow',
+        // code: 'UNPREDICTABLE_GAS_LIMIT',
+        // method: 'estimateGas',
+        // transaction: {
+        //   from: '0x80dD5aD6B8775c4E31C999cA278Ef4D035717872',
+        //   to: '0xf0BC7B2c4DA3a04FD94FfA94F0360358417fa3A1',
+        //   data: '0xa694fc3a0000000000000000000000000000000000000000000000000000000000000001',
+        //   accessList: null
+        // },
     });
 
 task("unstake", "withdraws tokens")

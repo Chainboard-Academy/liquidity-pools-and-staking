@@ -6,7 +6,7 @@ import "@openzeppelin/hardhat-upgrades";
 import * as dotenv from "dotenv";
 import "./tasks/erc20";
 import "./tasks/weth";
-// import "./tasks/staking_rewards"
+import "./tasks/staking"
 
 dotenv.config();
 
