@@ -1,5 +1,5 @@
 import { ethers } from "hardhat";
-const LP_CONTRACT_ADDRESS: string = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'; //Liquidity Pool contract used for deployment rewards
+const LP_CONTRACT_ADDRESS: string = '0x06ba7fce84CC8D6ce1Fac9E504bF0922226CBA53'; //Liquidity Pool contract used for deployment rewards
 const ERC20_CONTRACT_ADDRESS: string = '0xE1E836fDB4D61DC05298F702Fdde128154c0158F'; //ERC20 contract used for staking
 
 async function main() {
