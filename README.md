@@ -8,16 +8,6 @@ and Rewards from staking come from ERC20 contract
 3. Created liquidity pool 'WETH-ERC'
 4. Added liquidity 8 ERC20, 2 WETH
 ...
-
-
-## Contract ERC20
-
-```shell
-## deploying ERC20 contract
-npx hardhat run scripts/deploy_erc20.ts --network goerli
-npx hardhat --network goerli verify [contract address] ERCStandard ERC20
-```
-
 ### ERC20 address
 
 #### 0xCD83fb6aE6881c7EE22B0428C2be55a487A2C854
@@ -59,25 +49,15 @@ npx hardhat withdraw --amount [value] --network goerli
 npx hardhat withdraw --amount 1 --network goerli
 ```
 
-## Liquidity 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D
+## Liquidity token 0x06ba7fce84CC8D6ce1Fac9E504bF0922226CBA53
 
 Created liquidity 'WETH-ERC20' with a ratio 1: 4
 
 max Total supply: 16 ERC20, 4 WETH;
 
-
-### 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D
-
-[contract at goerli.etherscan.io](https://goerli.etherscan.io/token/0xcd83fb6ae6881c7ee22b0428c2be55a487a2c854?a=0x06ba7fce84cc8d6ce1fac9e504bf0922226cba53#code)
+[contract at goerli.etherscan.io](https://goerli.etherscan.io/token/0x06ba7fce84cc8d6ce1fac9e504bf0922226cba53)
 
 ## Staking Rewards Token
+### 0xabeF3182285b63276E1F14F3af3a5c000409004D
 
-### 0x5CBd89Fb7447eA9b2894816E608Df5d9c1E0b146
-
-[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0x5CBd89Fb7447eA9b2894816E608Df5d9c1E0b146#writeContract)
-
-```shell
-
-## deploying ERC20 contract
-npx hardhat run scripts/deploy_staking_rewards.ts --network goerli
-npx hardhat --network goerli verify [contract address] [LP_CONTRACT_ADDRESS] [ERC20_CONTRACT_ADDRESS]
+[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0xabeF3182285b63276E1F14F3af3a5c000409004D)
