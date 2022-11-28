@@ -1,16 +1,14 @@
 import { ethers } from "hardhat";
-const LP_CONTRACT_ADDRESS: string = process.env.LP_CONTRACT_ADDRESS || ''; //Liquidity Pool contract used for deployment rewards
-const ERC20_CONTRACT_ADDRESS: string = process.env.ERC20_CONTRACT_ADDRESS || ''; //ERC20 contract used for staking
+const LP_CONTRACT_ADDRESS: string = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'; //Liquidity Pool contract used for deployment rewards
+const ERC20_CONTRACT_ADDRESS: string = '0xE1E836fDB4D61DC05298F702Fdde128154c0158F'; //ERC20 contract used for staking
 
 async function main() {
     console.log("Deploying Staking contract");
     const Staking = await ethers.getContractFactory("Staking");
-    console.log(LP_CONTRACT_ADDRESS, ERC20_CONTRACT_ADDRESS, 'LP_CONTRACT_ADDRESS, ERC20_CONTRACT_ADDRESS')
     const staking_rewards_token = await Staking.deploy(LP_CONTRACT_ADDRESS, ERC20_CONTRACT_ADDRESS);
-    console.log("Staking contract deployed to:", staking_rewards_token.address);
 
     await staking_rewards_token.deployed();
-    console.log("Staking contract deployed to2:", staking_rewards_token.address);
+    console.log("Staking contract deployed to:", staking_rewards_token.address);
 }
 
 main()

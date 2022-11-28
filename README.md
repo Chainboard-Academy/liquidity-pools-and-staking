@@ -59,22 +59,22 @@ npx hardhat withdraw --amount [value] --network goerli
 npx hardhat withdraw --amount 1 --network goerli
 ```
 
-## Liquidity
+## Liquidity 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D
 
-Created liquidity 'WETH-ERC' with a ratio 1: 10
+Created liquidity 'WETH-ERC20' with a ratio 1: 4
 
-max Total supply: 20 ERC20, 2 WETH
-balance: 2 WETH, 8 ERC20
+max Total supply: 16 ERC20, 4 WETH;
 
-### 0x06ba7fce84cc8d6ce1fac9e504bf0922226cba53
+
+### 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D
 
 [contract at goerli.etherscan.io](https://goerli.etherscan.io/token/0xcd83fb6ae6881c7ee22b0428c2be55a487a2c854?a=0x06ba7fce84cc8d6ce1fac9e504bf0922226cba53#code)
 
 ## Staking Rewards Token
 
-### 0xf0BC7B2c4DA3a04FD94FfA94F0360358417fa3A1
+### 0x5CBd89Fb7447eA9b2894816E608Df5d9c1E0b146
 
-[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0xf0BC7B2c4DA3a04FD94FfA94F0360358417fa3A1#code)
+[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0x5CBd89Fb7447eA9b2894816E608Df5d9c1E0b146#writeContract)
 
 ```shell
 
