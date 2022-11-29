@@ -1,11 +1,11 @@
 # Liquidity Pools and Staking
-Created liquidity pool on UniswapV2 'WETH-ERC' with a ratio 1: 10.
+Created liquidity pool on UniswapV2 'WETH-ERC'
 Created Staking rewards contract, where, "staking-unstacking" comes from LP contract,
 and Rewards from staking come from ERC20 contract
 
 1. Minted ERC20 for 20
-2. Deposit WETH for 2
-3. Created liquidity pool 'WETH-ERC'
+2. Deposit WETH for 4
+3. Created liquidity pool 'WETH-ERC'  ( 4 WETH, 16 ERC20)
 4. Added liquidity 8 ERC20, 2 WETH
 ...
 ### ERC20 address
@@ -35,7 +35,7 @@ npx hardhat increaseAllowance --account [ACCOUNT] --amount [value]--network goer
 npx hardhat run scripts/deploy_weth.ts --network goerli
 npx hardhat --network goerli verify [contract address]
 ```
-total supply 2 WETH
+total supply 4 ETH
 
 ### 0xE1E836fDB4D61DC05298F702Fdde128154c0158F
 
@@ -56,8 +56,11 @@ Created liquidity 'WETH-ERC20' with a ratio 1: 4
 max Total supply: 16 ERC20, 4 WETH;
 
 [contract at goerli.etherscan.io](https://goerli.etherscan.io/token/0x06ba7fce84cc8d6ce1fac9e504bf0922226cba53)
+total supply 8
 
 ## Staking Rewards Token
 ### 0xabeF3182285b63276E1F14F3af3a5c000409004D
 
 [contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0xabeF3182285b63276E1F14F3af3a5c000409004D)
+Rewards supply: 20
+Staking supply LP: 8
