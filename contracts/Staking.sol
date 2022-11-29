@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.17;
 
-import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "hardhat/console.sol";
 contract Staking {
     uint256 public minStakingTime;
     uint256 public rewardRate = 5;
     IERC20 public stakingToken;
-    ERC20 public rewardsToken;
+    IERC20 public rewardsToken;
 
     struct Stakeholder {
         uint256 stakedValue;
@@ -20,7 +19,7 @@ contract Staking {
 
     constructor(address lp_token, address erc20_token) {
         stakingToken=IERC20(lp_token);
-        rewardsToken=ERC20(erc20_token);
+        rewardsToken=IERC20(erc20_token);
         minStakingTime = 7 days;
     }
 

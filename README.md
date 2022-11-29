@@ -5,7 +5,7 @@ and Rewards from staking come from ERC20 contract
 
 1. Minted ERC20 for 20
 2. Deposit WETH for 4
-3. Created liquidity pool 'WETH-ERC'  ( 4 WETH, 16 ERC20)
+3. Created liquidity pool 'WETH-ERC'  ( 2 WETH, 8 ERC20)
 4. Added liquidity 8 ERC20, 2 WETH
 ...
 ### ERC20 address

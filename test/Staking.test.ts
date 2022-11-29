@@ -25,7 +25,6 @@ describe("Staking", function () {
         [acc0, acc1] = await ethers.getSigners();
 
         await staking_token.mint(acc0.address, uGwei);
-        await rewards_token.mint(staking_contract.address, uGwei);
 
     });
     describe('deployment', () => {
@@ -33,7 +32,7 @@ describe("Staking", function () {
             const stakingSupply = await staking_contract.stakingTotalSupply();
             expect(stakingSupply).equals(1000001000);
             const rewardsSupply = await staking_contract.rewardsTotalSupply();
-            expect(rewardsSupply).equals(1000001000)
+            expect(rewardsSupply).equals(1000)
         });
     });
     describe('Staking', function () {
@@ -61,8 +60,6 @@ describe("Staking", function () {
             tx_stake = await staking_contract.stake(staking_val_2);
             expect(tx_stake).to.emit(staking_contract, "Stake").withArgs(acc0.address, staking_val_2);
             expect(tx_stake).to.emit(staking_contract, "Claim").withArgs(acc0.address, 0);
-            const stakingSupply = await staking_contract.stakingTotalSupply();
-            console.log(stakingSupply, 'stakingSupply')
         });
         it('reverts transaction', async () => {
             const tx_transfer = await staking_token.transfer(acc1.address, 100);
